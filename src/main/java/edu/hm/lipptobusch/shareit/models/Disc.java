@@ -17,13 +17,13 @@ public class Disc extends Medium {
     private final int fsk;
 
     /**
-     * private default constructor is needed for reflection
+     * private default constructor is needed for reflection (Jackson)
      */
     private Disc() {
-        super("");
-        barcode = "";
-        director = "";
-        fsk = 0;
+        super(null);
+        barcode = null;
+        director = null;
+        fsk = -1;
     }
 
     public Disc(String title, String barcode, String director, int fsk) {

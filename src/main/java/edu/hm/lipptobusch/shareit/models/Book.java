@@ -17,12 +17,12 @@ public class Book extends Medium{
     private final String isbn;
 
     /**
-     * private default constructor is needed for reflection
+     * private default constructor is needed for reflection (Jackson)
      */
     private Book() {
-        super("");
-        author = "";
-        isbn = "";
+        super(null);
+        author = null;
+        isbn = null;
     }
 
     public Book(String title, String author, String isbn) {
