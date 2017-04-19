@@ -12,5 +12,27 @@ package edu.hm.fachklassen;
  * @version 2017-04-19
  */
 public class Copy {
+    private final Medium medium;
+    private final String owner;
 
+    public Copy(String owner, Medium medium) {
+        this.medium = medium;
+        this.owner = owner;
+    }
+
+    public Medium getMedium() {
+        return medium;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    @Override
+    public String toString() {
+        return "Copy{" +
+                medium.toString() +
+                ", owner='" + owner + '\'' +
+                '}';
+    }
 }
