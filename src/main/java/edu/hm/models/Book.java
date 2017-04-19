@@ -4,7 +4,7 @@
  * Purpose: solution of assignment 2
  */
 
-package edu.hm.fachklassen;
+package edu.hm.models;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu
