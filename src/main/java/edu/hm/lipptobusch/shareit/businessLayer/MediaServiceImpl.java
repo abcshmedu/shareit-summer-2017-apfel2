@@ -4,11 +4,11 @@
  * Purpose: solution of assignment 2
  */
 
-package edu.hm.businessLayer;
+package edu.hm.lipptobusch.shareit.businessLayer;
 
-import edu.hm.models.Book;
-import edu.hm.models.Disc;
-import edu.hm.models.Medium;
+import edu.hm.lipptobusch.shareit.models.Book;
+import edu.hm.lipptobusch.shareit.models.Disc;
+import edu.hm.lipptobusch.shareit.models.Medium;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu

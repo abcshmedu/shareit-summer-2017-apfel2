@@ -4,7 +4,7 @@
  * Purpose: solution of assignment 2
  */
 
-package edu.hm.models;
+package edu.hm.lipptobusch.shareit.models;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu

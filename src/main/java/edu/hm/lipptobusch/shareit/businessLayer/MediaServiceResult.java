@@ -4,7 +4,7 @@
  * Purpose: solution of assignment 2
  */
 
-package edu.hm.businessLayer;
+package edu.hm.lipptobusch.shareit.businessLayer;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu
