@@ -14,19 +14,15 @@
     <div class="container">
 	  <div class="row">
 	    <div class="three columns">
-	    	<input value="New Book" type="button" onclick="changeContent('newbook.partial')">
+	    	<input value="New Book" type="button" onclick="changeContentBook('newbook.partial')">
+	    	<input value="New Disc" type="button" onclick="changeContentDisc('newdisc.partial')">
 	    	<input value="List Books" type="button" onclick="listBooks()">
+	    	<input value="List Discs" type="button" onclick="listDiscs()">
 	    </div>
-	    <div class="nine columns" id="content">
-	      <h2>ShareIt</h2>
-		   <table border="0"><tbody>
-			   <tr><td><label for="title">Titel:</label></td> <td><input type="text" name="title"></td></tr>
-			   <tr><td><label for="author">Autor:</label></td> <td><input type="text" name="author"></td></tr>
-			   <tr><td><label for="isbn">ISBN:</label></td> <td><input type="text" name="isbn"></td></tr>
-	       </tbody></table>
-		  <div><span id="errormessage" class="hidden error">ERROR</span></div>
-		  <input type="button" class="button-primary" id="registerButton" onclick="submitNewBook()" value="Eintragen"/>
-	    </div>
+		  <div class="nine columns" id="content">
+			  <h2>ShareIt</h2>
+			  <p>Welcome to the ShareIt-Platform</p>
+		  </div>
 	  </div>
     </div>
  </body>

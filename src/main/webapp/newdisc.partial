@@ -1,0 +1,9 @@
+	      <h2>ShareIt - New Disc</h2>
+		   <table border="0"><tbody>
+			   <tr><td><label for="title">Titel:</label></td> <td><input type="text" name="title"></td></tr>
+			   <tr><td><label for="director">Director:</label></td> <td><input type="text" name="director"></td></tr>
+			   <tr><td><label for="barcode">Barcode:</label></td> <td><input type="text" name="barcode"></td></tr>
+			   <tr><td><label for="fsk">FSK:</label></td> <td><input type="number" name="fsk"></td></tr>
+	       </tbody></table>
+		  <div><span id="errormessage" class="hidden error">ERROR</span></div>
+		  <input type="button" class="button-primary" id="registerButton" onclick="submitNewDisc()" value="Eintragen"/>
