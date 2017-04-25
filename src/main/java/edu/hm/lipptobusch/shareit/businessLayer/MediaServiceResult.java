@@ -13,4 +13,45 @@ package edu.hm.lipptobusch.shareit.businessLayer;
  */
 public enum MediaServiceResult {
 
+    /*
+        Wenn kein Fehler auftritt, dann reicht es aus, wenn die aufgerufene Methode
+        einer Resourcen-Klasse den entsprechenden 2xx-Code zuruck gibt. Tritt ein Fehler auf,
+        so muss ein angemessener HTTP-Fehlercode an den Client geliefert werden und sinnvollerweise
+        ein Hinweis auf die Fehlerursache.
+        Liefern Sie in diesem Fall ein JSON-Objekt mit denn Attributen code (Zahl) und detail
+        (Zeichenkette). Der Fehlercode wird dann also redundant uebertragen.
+     */
+
+
+    /*
+        HTTP-Status-Codes
+
+        200     OK
+        201     Created
+        204     No Content (z.B. nach erfolgreichem DELETE)
+
+        400	    Bad Request
+        401     Unauthorized
+        404     Not found
+
+        500     Internal Server Error
+        501     Not Implemented
+        503     Service unavailable
+
+
+     */
+
+    OK(200),
+    CREATED(201),
+    NO_CONTENT(204);
+
+    private final int statusCode;
+
+    MediaServiceResult(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
 }

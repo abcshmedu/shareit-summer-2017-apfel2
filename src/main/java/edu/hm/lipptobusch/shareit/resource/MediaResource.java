@@ -8,6 +8,7 @@ package edu.hm.lipptobusch.shareit.resource;
 
 import edu.hm.lipptobusch.shareit.businessLayer.MediaService;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceImpl;
+import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceResult;
 import edu.hm.lipptobusch.shareit.models.Book;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
@@ -39,12 +40,11 @@ public class MediaResource{
      * @return
      */
     @POST
-    @Path("/books")
+    @Path("books")
     @Consumes(MediaType.APPLICATION_JSON) //Jersey will use Jackson to handle the JSON conversion automatically
-    @Produces(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
 
-        mediaService.addBook(book);
+        MediaServiceResult result = mediaService.addBook(book);
 
         return Response.status(201).build(); //TODO correct response via MediaServiceResult
     }
@@ -55,7 +55,7 @@ public class MediaResource{
      * @return
      */
     @GET
-    @Path("/books")
+    @Path("books")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBooks() {
 
@@ -75,7 +75,7 @@ public class MediaResource{
      * @return
      */
     @PUT
-    @Path("/books/{isbn}")
+    @Path("books/{isbn}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateBook(@PathParam("isbn") String isbn) {

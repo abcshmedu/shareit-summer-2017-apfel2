@@ -19,7 +19,7 @@ import java.util.*;
  */
 public class MediaServiceImpl implements MediaService{
     private final Map<String, Book> books;
-    private final Collection<Disc> discs;
+    private final Collection<Disc> discs;   //TODO Discs auch als Map
 
     public MediaServiceImpl() {
         this.books = new HashMap<>();
@@ -29,9 +29,24 @@ public class MediaServiceImpl implements MediaService{
     @Override
     public MediaServiceResult addBook(Book book) {
         //TODO dealing with errors (author or title is missing; duplicate ISBN; invalid ISBN)
-        //error values for Strings are null
+
+        if (books.containsKey(book.getIsbn())) {
+            //Error duplicate ISBN
+            //return MediaServiceResult
+
+        }
+        if (book.getAuthor() == null) {
+            //Error no author
+            //return MediaServiceResult
+        }
+        if (book.getTitle() == null) {
+            //Error no title
+            //return MediaServiceResult
+        }
 
         books.put(book.getIsbn(), book);
+
+        System.out.println(book); //TODO DELETE testing line
 
         return null;
     }
