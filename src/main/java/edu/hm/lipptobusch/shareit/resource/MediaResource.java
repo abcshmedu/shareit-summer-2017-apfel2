@@ -83,16 +83,7 @@ public class MediaResource{
     public Response createDisc(Disc disc) {
 
         MediaServiceResult result = mediaService.addDisc(disc);
-
-        ObjectMapper mapper = new ObjectMapper();
-        String json = null;
-        try {
-            json= mapper.writeValueAsString(result);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        System.out.println(result.getMessage());
-        System.out.println(json);
+        
 
         return Response.status(result.getStatusCode()).entity(result).build(); //TODO correct response via MediaServiceResult
     }
