@@ -10,6 +10,8 @@ import edu.hm.lipptobusch.shareit.businessLayer.MediaService;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceImpl;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceResult;
 import edu.hm.lipptobusch.shareit.models.Book;
+import org.json.JSONObject;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -46,7 +48,7 @@ public class MediaResource{
 
         MediaServiceResult result = mediaService.addBook(book);
 
-        return Response.status(201).build(); //TODO correct response via MediaServiceResult
+        return Response.status(result.getStatusCode()).entity(result).build(); //TODO correct response via MediaServiceResult
     }
 
     /**
