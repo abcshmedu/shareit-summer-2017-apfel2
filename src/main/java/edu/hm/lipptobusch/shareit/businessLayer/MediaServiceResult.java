@@ -54,6 +54,8 @@ public enum MediaServiceResult {
         this.message = message;
     }
 
+    private MediaServiceResult() {statusCode = 0; message = "";}
+
     public int getStatusCode() {
         return statusCode;
     }
