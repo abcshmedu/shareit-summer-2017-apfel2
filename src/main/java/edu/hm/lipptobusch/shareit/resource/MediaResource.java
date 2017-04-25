@@ -6,8 +6,7 @@
 
 package edu.hm.lipptobusch.shareit.resource;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.hm.lipptobusch.shareit.businessLayer.MediaService;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceImpl;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceResult;
@@ -48,15 +47,15 @@ public class MediaResource{
 
         MediaServiceResult result = mediaService.addBook(book);
 
-        ObjectMapper mapper = new ObjectMapper();
+        /**
         String json = null;
+         ObjectMapper mapper = new ObjectMapper();
         try {
             json= mapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println(result.getMessage());
-        System.out.println(json);
+        System.out.println(json); **/
 
         return Response.status(result.getStatusCode()).entity(result).build(); //TODO correct response via MediaServiceResult
     }

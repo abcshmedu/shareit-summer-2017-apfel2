@@ -5,12 +5,15 @@
  */
 
 package edu.hm.lipptobusch.shareit.businessLayer;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu
  * @author Florian Tobusch, tobusch@hm.edu
  * @version 2017-04-19
  */
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum MediaServiceResult {
 
     /*
