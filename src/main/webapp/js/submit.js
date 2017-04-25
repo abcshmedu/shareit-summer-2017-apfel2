@@ -49,7 +49,7 @@ var submitNewDisc = function() {
     });
     var errorText = $("#errormessageBook");
     $.ajax({
-        url: '/shareit/media/books/',
+        url: '/shareit/media/discs/',
         type:'POST',
         contentType: 'application/json; charset=UTF-8',
         data: json
@@ -94,7 +94,7 @@ var listDiscs = function() {
         type:'GET'
     })
         .done((data) => {
-        var template = "<h2>ShareIt - List of all Discs</h2><table class='u-full-width'><tbody>{{#data}}<tr><td>{{title}}</td><td>{{author}}</td><td>{{isbn}}</td></tr>{{/data}}</tbody></table>";
+        var template = "<h2>ShareIt - List of all Discs</h2><table class='u-full-width'><tbody>{{#data}}<tr><td>{{title}}</td><td>{{director}}</td><td>{{barcode}}</td><td>{{fsk}}</td></tr>{{/data}}</tbody></table>";
     Mustache.parse(template);
     var output = Mustache.render(template, {data: data});
     $("#content").html(output);

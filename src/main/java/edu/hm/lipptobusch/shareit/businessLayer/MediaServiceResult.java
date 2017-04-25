@@ -41,6 +41,7 @@ public enum MediaServiceResult {
      */
 
     DUPLICATE_ISBN(400,"The ISBN already exists"),
+    DUPLICATE_Barcode(400,"The Barcode already exists"),
     INVALID_ISBN(400,"The ISBN is not valid"),
     INCOMPLETE_ARGUMENTS(400,"Author or title is missing"),
     OK(200,"OK 123");

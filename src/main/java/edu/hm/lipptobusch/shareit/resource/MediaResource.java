@@ -12,6 +12,7 @@ import edu.hm.lipptobusch.shareit.businessLayer.MediaService;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceImpl;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceResult;
 import edu.hm.lipptobusch.shareit.models.Book;
+import edu.hm.lipptobusch.shareit.models.Disc;
 import edu.hm.lipptobusch.shareit.models.Medium;
 
 import javax.ws.rs.core.Response;
@@ -71,6 +72,39 @@ public class MediaResource{
     public Response getBooks() {
 
         Medium[] allBooks = mediaService.getBooks();
+
+        return Response.status(201).entity(allBooks).build(); //TODO correct response via MediaServiceResult
+    }
+
+
+    @POST
+    @Path("discs")
+    @Consumes(MediaType.APPLICATION_JSON) //Jersey will use Jackson to handle the JSON conversion automatically
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createDisc(Disc disc) {
+
+        MediaServiceResult result = mediaService.addDisc(disc);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = null;
+        try {
+            json= mapper.writeValueAsString(result);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        System.out.println(result.getMessage());
+        System.out.println(json);
+
+        return Response.status(result.getStatusCode()).entity(result).build(); //TODO correct response via MediaServiceResult
+    }
+
+
+    @GET
+    @Path("discs")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDiscs() {
+
+        Medium[] allBooks = mediaService.getDiscs();
 
         return Response.status(201).entity(allBooks).build(); //TODO correct response via MediaServiceResult
     }

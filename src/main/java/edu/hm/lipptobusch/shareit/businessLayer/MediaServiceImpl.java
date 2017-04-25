@@ -19,7 +19,7 @@ import java.util.*;
  */
 public class MediaServiceImpl implements MediaService{
     private final Map<String, Book> books;
-    private final Map<String, Disc> discs;   //TODO Discs auch als Map
+    private final Map<String, Disc> discs;
 
     public MediaServiceImpl() {
         this.books = new HashMap<>();
@@ -54,9 +54,24 @@ public class MediaServiceImpl implements MediaService{
         //TODO dealing with errors (director or title or fsk is missing; duplicate barcode; invalid barcode)
         //error values for Strings are null and for fsk -1
 
+        if (discs.containsKey(disc.getBarcode())) {
+            //Error duplicate ISBN
+            //return MediaServiceResult
+            return MediaServiceResult.DUPLICATE_Barcode;
+        }
+
+        if (disc.getDirector().isEmpty() || disc.getTitle().isEmpty() || disc.getFsk()==-1) {
+            //Error no author
+            //return MediaServiceResult
+            return MediaServiceResult.INCOMPLETE_ARGUMENTS;
+        }
+
         discs.put(disc.getBarcode(), disc);
 
-        return null;
+        System.out.println("added disc: " + discs.containsKey(disc.getBarcode())); //TODO DELETE testing line
+
+
+        return MediaServiceResult.OK;
     }
 
     @Override
