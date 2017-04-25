@@ -41,17 +41,20 @@ public enum MediaServiceResult {
 
      */
 
-    OK(200),
-    CREATED(201),
-    NO_CONTENT(204);
+    DUPLICATE_ISBN("The ISBN already exists"),;
 
-    private final int statusCode;
+    private final int STATUS_CODE = 200;
+    private final String message;
 
-    MediaServiceResult(int statusCode) {
-        this.statusCode = statusCode;
+    MediaServiceResult(String message) {
+        this.message = message;
     }
 
     public int getStatusCode() {
-        return statusCode;
+        return STATUS_CODE;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

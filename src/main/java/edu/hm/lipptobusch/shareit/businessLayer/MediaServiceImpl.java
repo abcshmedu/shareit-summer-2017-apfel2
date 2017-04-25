@@ -33,6 +33,7 @@ public class MediaServiceImpl implements MediaService{
         if (books.containsKey(book.getIsbn())) {
             //Error duplicate ISBN
             //return MediaServiceResult
+            return MediaServiceResult.DUPLICATE_ISBN;
 
         }
         if (book.getAuthor() == null) {
