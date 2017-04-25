@@ -19,11 +19,11 @@ import java.util.*;
  */
 public class MediaServiceImpl implements MediaService{
     private final Map<String, Book> books;
-    private final Collection<Disc> discs;   //TODO Discs auch als Map
+    private final Map<String, Disc> discs;   //TODO Discs auch als Map
 
     public MediaServiceImpl() {
         this.books = new HashMap<>();
-        this.discs = new HashSet<>();
+        this.discs = new HashMap<>();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MediaServiceImpl implements MediaService{
 
         books.put(book.getIsbn(), book);
 
-        System.out.println(book); //TODO DELETE testing line
+        System.out.println("added book: " + books.containsKey(book.getIsbn())); //TODO DELETE testing line
 
         return MediaServiceResult.OK;
     }
@@ -54,7 +54,7 @@ public class MediaServiceImpl implements MediaService{
         //TODO dealing with errors (director or title or fsk is missing; duplicate barcode; invalid barcode)
         //error values for Strings are null and for fsk -1
 
-        discs.add(disc);
+        discs.put(disc.getBarcode(), disc);
 
         return null;
     }
@@ -65,7 +65,7 @@ public class MediaServiceImpl implements MediaService{
 
         Iterator<Book> mediumIterator = books.values().iterator();
 
-        for (int i = 0; i < result.length; i++) {
+        for (int i = 0; mediumIterator.hasNext(); i++) {
             result[i] = mediumIterator.next();
         }
 
@@ -75,9 +75,9 @@ public class MediaServiceImpl implements MediaService{
     @Override
     public Medium[] getDiscs() {
         Medium[] result = new Medium[discs.size()];
-        Iterator<Disc> mediumIterator = discs.iterator();
+        Iterator<Disc> mediumIterator = discs.values().iterator();
 
-        for (int i = 0; i < result.length; i++) {
+        for (int i = 0; mediumIterator.hasNext(); i++) {
             result[i] = mediumIterator.next();
         }
 
@@ -124,15 +124,5 @@ public class MediaServiceImpl implements MediaService{
     @Override
     public MediaServiceResult updateDisc(Disc disc) {
         return null;
-    }
-
-    public static void main(String[] args) {
-        MediaServiceImpl ms = new MediaServiceImpl();
-        ms.addBook(new Book("Bible","god","123456"));
-        ms.addBook(new Book("Bible2","god2.0","1234546"));
-        Medium[] allBooks = ms.getBooks();
-        for (Medium m: allBooks) {
-            System.out.println(m.toString());
-        }
     }
 }

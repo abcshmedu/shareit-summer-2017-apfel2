@@ -6,10 +6,12 @@
 
 package edu.hm.lipptobusch.shareit.resource;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaService;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceImpl;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceResult;
 import edu.hm.lipptobusch.shareit.models.Book;
+import edu.hm.lipptobusch.shareit.models.Medium;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
@@ -23,11 +25,7 @@ import javax.ws.rs.core.MediaType;
 @Path("media")
 public class MediaResource{
 
-    private final MediaService mediaService;
-
-    public MediaResource() {
-        mediaService = new MediaServiceImpl();
-    }
+    private static final MediaService mediaService = new MediaServiceImpl();
 
     /**
      * URI-Template     Verb    Wirkung
@@ -60,7 +58,9 @@ public class MediaResource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBooks() {
 
-        return Response.status(201).build(); //TODO correct response via MediaServiceResult
+        Medium[] allBooks = mediaService.getBooks();
+
+        return Response.status(201).entity(allBooks).build(); //TODO correct response via MediaServiceResult
     }
 
     /**
