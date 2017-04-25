@@ -36,7 +36,7 @@ public class MediaServiceImpl implements MediaService{
             return MediaServiceResult.DUPLICATE_ISBN;
         }
 
-        if (book.getAuthor() == null || book.getTitle() == null) {
+        if (book.getAuthor().isEmpty() || book.getTitle().isEmpty()) {
             //Error no author
             //return MediaServiceResult
             return MediaServiceResult.INCOMPLETE_ARGUMENTS;
