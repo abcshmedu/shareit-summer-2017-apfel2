@@ -27,12 +27,12 @@ var submitNewBook = function() {
 			$("input[name=isbn]").val("");
         	
         	errorText.removeClass("visible");
-        	errorText.addClass("visible");
+        	errorText.addClass("hidden");
         })
         .fail((error) => {
         	errorText.addClass("visible");
         	errorText.text(error.responseJSON.detail);
-        	errorText.removeClass("visible");
+        	errorText.removeClass("hidden");
         });
 }
 

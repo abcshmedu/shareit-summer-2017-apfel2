@@ -10,7 +10,6 @@ import edu.hm.lipptobusch.shareit.businessLayer.MediaService;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceImpl;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceResult;
 import edu.hm.lipptobusch.shareit.models.Book;
-import org.json.JSONObject;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
@@ -44,10 +43,10 @@ public class MediaResource{
     @POST
     @Path("books")
     @Consumes(MediaType.APPLICATION_JSON) //Jersey will use Jackson to handle the JSON conversion automatically
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
 
         MediaServiceResult result = mediaService.addBook(book);
-
         return Response.status(result.getStatusCode()).entity(result).build(); //TODO correct response via MediaServiceResult
     }
 
