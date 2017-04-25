@@ -38,20 +38,24 @@ public enum MediaServiceResult {
         501     Not Implemented
         503     Service unavailable
 
-
      */
 
-    DUPLICATE_ISBN("The ISBN already exists"),;
+    DUPLICATE_ISBN(400,"The ISBN already exists"),
+    INVALID_ISBN(400,"The ISBN is not valid"),
+    INCOMPLETE_ARGUMENTS(400,"Author or title is missing"),
+    OK(200,"OK");
 
-    private final int STATUS_CODE = 200;
+
+    private final int statusCode;
     private final String message;
 
-    MediaServiceResult(String message) {
+    MediaServiceResult(int code, String message) {
+        this.statusCode = code;
         this.message = message;
     }
 
     public int getStatusCode() {
-        return STATUS_CODE;
+        return statusCode;
     }
 
     public String getMessage() {

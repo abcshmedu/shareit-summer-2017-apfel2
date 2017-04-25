@@ -34,22 +34,19 @@ public class MediaServiceImpl implements MediaService{
             //Error duplicate ISBN
             //return MediaServiceResult
             return MediaServiceResult.DUPLICATE_ISBN;
-
         }
-        if (book.getAuthor() == null) {
+
+        if (book.getAuthor() == null || book.getTitle() == null) {
             //Error no author
             //return MediaServiceResult
-        }
-        if (book.getTitle() == null) {
-            //Error no title
-            //return MediaServiceResult
+            return MediaServiceResult.INCOMPLETE_ARGUMENTS;
         }
 
         books.put(book.getIsbn(), book);
 
         System.out.println(book); //TODO DELETE testing line
 
-        return null;
+        return MediaServiceResult.OK;
     }
 
     @Override
