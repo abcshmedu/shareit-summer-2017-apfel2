@@ -14,7 +14,7 @@ var submitNewBook = function() {
 			author: $("input[name=author]").val(),
 			isbn: $("input[name=isbn]").val()
 	});
-	var errorText = $("#errormessage");
+	var errorText = $("#errormessageBook");
     $.ajax({
         url: '/shareit/media/books/',
         type:'POST',
@@ -36,6 +36,39 @@ var submitNewBook = function() {
         });
 }
 
+
+/**
+ * This function is used for transfer of new disc info.
+ */
+var submitNewDisc = function() {
+    var json = JSON.stringify({
+        title: $("input[name=title]").val(),
+        director: $("input[name=director]").val(),
+        barcode: $("input[name=barcode]").val(),
+        fsk: $("input[name=fsk]").val()
+    });
+    var errorText = $("#errormessageBook");
+    $.ajax({
+        url: '/shareit/media/books/',
+        type:'POST',
+        contentType: 'application/json; charset=UTF-8',
+        data: json
+    })
+        .done(() => {
+        $("input[name=title]").val("");
+    $("input[name=director]").val("");
+    $("input[name=barcode]").val("");
+    $("input[name=fsk]").val("");
+
+    errorText.removeClass("visible");
+    errorText.addClass("hidden");
+})
+    .fail((error) => {
+        errorText.addClass("visible");
+    errorText.text(error.responseJSON.detail);
+    errorText.removeClass("hidden");
+});
+}
 /**
  * Creates a list of all books using a Mustache-template.
  */
@@ -45,7 +78,7 @@ var listBooks = function() {
         type:'GET'
 	})
 	.done((data) => {
-		var template = "<table class='u-full-width'><tbody>{{#data}}<tr><td>{{title}}</td><td>{{author}}</td><td>{{isbn}}</td></tr>{{/data}}</tbody></table>";
+		var template = "<h2>ShareIt - List of all Books</h2><table class='u-full-width'><tbody>{{#data}}<tr><td>{{title}}</td><td>{{author}}</td><td>{{isbn}}</td></tr>{{/data}}</tbody></table>";
 		Mustache.parse(template);
 		var output = Mustache.render(template, {data: data});
 		$("#content").html(output);
@@ -53,9 +86,25 @@ var listBooks = function() {
 }
 
 /**
+ * Creates a list of all discs using a Mustache-template.
+ */
+var listDiscs = function() {
+    $.ajax({
+        url: '/shareit/media/discs',
+        type:'GET'
+    })
+        .done((data) => {
+        var template = "<h2>ShareIt - List of all Discs</h2><table class='u-full-width'><tbody>{{#data}}<tr><td>{{title}}</td><td>{{author}}</td><td>{{isbn}}</td></tr>{{/data}}</tbody></table>";
+    Mustache.parse(template);
+    var output = Mustache.render(template, {data: data});
+    $("#content").html(output);
+});// no error handling
+}
+
+/**
  * Call backer for "navigational buttons" in left column. Used to set content in main part.
  */
-var changeContent = function(content) {
+var changeContentBook = function(content) {
 	$.ajax({
         url: content,
         type:'GET'
@@ -63,4 +112,13 @@ var changeContent = function(content) {
 	.done((data) => {
 		$("#content").html(data);
 	});// no error handling
+}
+var changeContentDisc = function(content) {
+    $.ajax({
+        url: content,
+        type:'GET'
+    })
+        .done((data) => {
+        $("#content").html(data);
+});// no error handling
 }
