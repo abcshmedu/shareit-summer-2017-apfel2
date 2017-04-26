@@ -36,6 +36,10 @@ public class MediaServiceImpl implements MediaService{
             return MediaServiceResult.DUPLICATE_ISBN;
         }
 
+        if (!isbnIsValid(book.getIsbn())) {
+            return MediaServiceResult.INVALID_ISBN;
+        }
+
         if (book.getAuthor().isEmpty() || book.getTitle().isEmpty()) {
             //Error no author
             //return MediaServiceResult
@@ -58,6 +62,10 @@ public class MediaServiceImpl implements MediaService{
             //Error duplicate ISBN
             //return MediaServiceResult
             return MediaServiceResult.DUPLICATE_Barcode;
+        }
+
+        if (!barcodeIsValid(disc.getBarcode())) {
+            return MediaServiceResult.INVALID_BARCODE;
         }
 
         if (disc.getDirector().isEmpty() || disc.getTitle().isEmpty() || disc.getFsk()==-1) {
@@ -100,7 +108,17 @@ public class MediaServiceImpl implements MediaService{
     }
 
     @Override
-    public MediaServiceResult updateBook(Book book) { //TODO maybe modify interface, need isbn from uri for correct check
+    public Medium getBook() {
+        return null;
+    }
+
+    @Override
+    public Medium getDisc() {
+        return null;
+    }
+
+    @Override
+    public MediaServiceResult updateBook(Book book, String isbn) { //TODO maybe modify interface, need isbn from uri for correct check
         /*
             Daten zu vorhandenem Buch modizieren (JSONDaten
             enthalten nur die zu modizierenden Attribute)
@@ -137,7 +155,19 @@ public class MediaServiceImpl implements MediaService{
     }
 
     @Override
-    public MediaServiceResult updateDisc(Disc disc) {
+    public MediaServiceResult updateDisc(Disc disc, String barcode) {
         return null;
+    }
+
+
+    private boolean isbnIsValid(String isbn) {
+        //TODO algorithm for checking isbn
+        //https://en.wikipedia.org/wiki/International_Standard_Book_Number#Check_digits
+        return true;
+    }
+
+    private boolean barcodeIsValid(String barcode) {
+        //TODO algorithm for checking barcode
+        return true;
     }
 }

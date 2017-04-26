@@ -139,12 +139,9 @@ public class MediaResource{
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateBook(@PathParam("isbn") String isbn, Book book) {
-        //TODO Implementation needed
-        //MediaServiceResult result = mediaService.updateBook(book, isbn);
+        MediaServiceResult result = mediaService.updateBook(book, isbn);
 
-        //return Response.status(result.getStatusCode()).entity(result).build();
-
-        return null;
+        return Response.status(result.getStatusCode()).entity(result).build();
     }
 
 
@@ -153,12 +150,9 @@ public class MediaResource{
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateDisc(@PathParam("barcode") String barcode, Disc disc) {
-        //TODO Implementation needed
-        //MediaServiceResult result = mediaService.updateDisc(disc, barcode);
+        MediaServiceResult result = mediaService.updateDisc(disc, barcode);
 
-        //return Response.status(result.getStatusCode()).entity(result).build();
-
-        return null;
+        return Response.status(result.getStatusCode()).entity(result).build();
     }
 
 }
