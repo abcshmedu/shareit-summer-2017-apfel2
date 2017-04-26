@@ -72,7 +72,19 @@ public class MediaResource{
 
         Medium[] allBooks = mediaService.getBooks();
 
-        return Response.status(201).entity(allBooks).build(); //TODO correct response via MediaServiceResult
+        return Response.status(201).entity(allBooks).build();
+    }
+
+    @GET
+    @Path("books/{isbn}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getBook(@PathParam("isbn") String isbn) {
+        //TODO Implementation needed
+        //Medium[] book = mediaService.getBook(isbn);
+
+        //return Response.status(201).entity(book).build();
+
+        return null;
     }
 
 
@@ -83,9 +95,8 @@ public class MediaResource{
     public Response createDisc(Disc disc) {
 
         MediaServiceResult result = mediaService.addDisc(disc);
-        
 
-        return Response.status(result.getStatusCode()).entity(result).build(); //TODO correct response via MediaServiceResult
+        return Response.status(result.getStatusCode()).entity(result).build();
     }
 
 
@@ -96,7 +107,19 @@ public class MediaResource{
 
         Medium[] allBooks = mediaService.getDiscs();
 
-        return Response.status(201).entity(allBooks).build(); //TODO correct response via MediaServiceResult
+        return Response.status(201).entity(allBooks).build();
+    }
+
+    @GET
+    @Path("discs/{barcode}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDisc(@PathParam("barcode") String barcode) {
+        //TODO Implementation needed
+        //Medium[] disc = mediaService.getDisc(barcode);
+
+        //return Response.status(201).entity(disc).build();
+
+        return null;
     }
 
     /**
@@ -115,9 +138,27 @@ public class MediaResource{
     @Path("books/{isbn}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateBook(@PathParam("isbn") String isbn) {
+    public Response updateBook(@PathParam("isbn") String isbn, Book book) {
+        //TODO Implementation needed
+        //MediaServiceResult result = mediaService.updateBook(book, isbn);
 
-        return Response.status(201).build(); //TODO correct response via MediaServiceResult
+        //return Response.status(result.getStatusCode()).entity(result).build();
+
+        return null;
+    }
+
+
+    @PUT
+    @Path("discs/{barcode}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateDisc(@PathParam("barcode") String barcode, Disc disc) {
+        //TODO Implementation needed
+        //MediaServiceResult result = mediaService.updateDisc(disc, barcode);
+
+        //return Response.status(result.getStatusCode()).entity(result).build();
+
+        return null;
     }
 
 }
