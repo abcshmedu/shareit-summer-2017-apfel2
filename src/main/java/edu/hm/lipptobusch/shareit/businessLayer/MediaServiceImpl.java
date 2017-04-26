@@ -11,6 +11,7 @@ import edu.hm.lipptobusch.shareit.models.Disc;
 import edu.hm.lipptobusch.shareit.models.Medium;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu
@@ -160,10 +161,32 @@ public class MediaServiceImpl implements MediaService{
     }
 
 
-    private boolean isbnIsValid(String isbn) {
-        //TODO algorithm for checking isbn
-        //https://en.wikipedia.org/wiki/International_Standard_Book_Number#Check_digits
-        return true;
+    private boolean isbnIsValid(String isbnCode) {
+        final int[] isbn = isbnCode.chars()
+                .map(x -> Character.getNumericValue(x))
+                .toArray();
+
+        int sum = 0;
+        if(isbn.length == 10) {
+            for(int i = 0; i < 10; i++) {
+                sum += i * isbn[i]; //asuming this is 0..9, not '0'..'9'
+            }
+
+            if(isbn[9] == sum % 11) return true;
+        } else if(isbn.length == 13) {
+
+            for(int i = 0; i < 12; i++) {
+                if(i % 2 == 0) {
+                    sum += isbn[i]; //asuming this is 0..9, not '0'..'9'
+                } else {
+                    sum += isbn[i] * 3;
+                }
+            }
+
+            if(isbn[12] == 10 - (sum % 10)) return true;
+        }
+
+        return false;
     }
 
     private boolean barcodeIsValid(String barcode) {
