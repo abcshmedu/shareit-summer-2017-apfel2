@@ -1,4 +1,4 @@
-package edu.hm.lipptobusch.shareit.businessLayer;
+package edu.hm.lipptobusch.shareit.resource;
 
 import org.junit.Test;
 
