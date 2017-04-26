@@ -79,12 +79,9 @@ public class MediaResource{
     @Path("books/{isbn}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBook(@PathParam("isbn") String isbn) {
-        //TODO Implementation needed
-        //Medium[] book = mediaService.getBook(isbn);
+        Medium book = mediaService.getBook(isbn);
 
-        //return Response.status(201).entity(book).build();
-
-        return null;
+        return Response.status(201).entity(book).build();
     }
 
 
@@ -114,12 +111,9 @@ public class MediaResource{
     @Path("discs/{barcode}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDisc(@PathParam("barcode") String barcode) {
-        //TODO Implementation needed
-        //Medium[] disc = mediaService.getDisc(barcode);
+        Medium disc = mediaService.getDisc(barcode);
 
-        //return Response.status(201).entity(disc).build();
-
-        return null;
+        return Response.status(201).entity(disc).build();
     }
 
     /**

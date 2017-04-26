@@ -48,6 +48,10 @@ public enum MediaServiceResult {
     INVALID_ISBN(400,"The ISBN is not valid"),
     INVALID_BARCODE(400,"The Barcode is not valid"),
     INCOMPLETE_ARGUMENTS(400,"Author or title is missing"),
+    ISBN_NOT_FOUND(400,"Could not update book. ISBN does not exist."),
+    BARCODE_NOT_FOUND(400,"Could not update disc. Barcode does not exist."),
+    MODIFYING_ISBN_NOT_ALLOWED(400,"Modifying the isbn is not allowed. Difference between JSON and isbn-param."),
+    MODIFYING_BARCODE_NOT_ALLOWED(400,"Modifying the barcode is not allowed. Difference between JSON and barcode-param."),
     OK(200,"OK 123");
 
 

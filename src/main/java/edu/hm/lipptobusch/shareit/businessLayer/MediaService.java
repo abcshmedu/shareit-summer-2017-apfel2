@@ -25,9 +25,9 @@ public interface MediaService {
 
     Medium[] getDiscs();
 
-    Medium getBook();
+    Medium getBook(String isbn);
 
-    Medium getDisc();
+    Medium getDisc(String barcode);
 
     MediaServiceResult updateBook(Book book, String isbn);
 

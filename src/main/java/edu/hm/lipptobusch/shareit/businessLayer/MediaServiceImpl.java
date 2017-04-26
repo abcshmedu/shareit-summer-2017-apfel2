@@ -108,55 +108,84 @@ public class MediaServiceImpl implements MediaService{
     }
 
     @Override
-    public Medium getBook() {
-        return null;
+    public Medium getBook(String isbn) {
+        Medium result = books.get(isbn);
+
+        return result;
     }
 
     @Override
-    public Medium getDisc() {
-        return null;
+    public Medium getDisc(String barcode) {
+        Medium result = discs.get(barcode);
+
+        return result;
     }
 
     @Override
-    public MediaServiceResult updateBook(Book book, String isbn) { //TODO maybe modify interface, need isbn from uri for correct check
-        /*
-            Daten zu vorhandenem Buch modizieren (JSONDaten
-            enthalten nur die zu modizierenden Attribute)
-            Moglicher Fehler: ISBN nicht gefunden
-            Moglicher Fehler: ISBN soll modiziert werden (also
-            die JSON-Daten enthalten eine andere ISBN als die
-            URI)
-            Moglicher Fehler: Autor und Titel fehlen
-         */
+    public MediaServiceResult updateBook(Book book, String isbn) {
+        if (!book.getIsbn().equals(isbn)) {
+            //modifying is ISBN is not allowed
+            return MediaServiceResult.MODIFYING_ISBN_NOT_ALLOWED;
+        }
 
+        if (!books.containsKey(book.getIsbn())) {
+            //ISBN not found
+            return MediaServiceResult.ISBN_NOT_FOUND;
+        }
+
+        if (book.getAuthor().isEmpty() || book.getTitle().isEmpty()) {
+            //author and title are missing
+            return MediaServiceResult.INCOMPLETE_ARGUMENTS;
+        }
 
         MediaServiceResult result;
 
+        Book oldBook = books.get(book.getIsbn());
+        books.remove(oldBook);
 
-        if (books.containsKey(book.getIsbn())) {
-            Book oldBook = books.get(book.getIsbn());
+        String newTitle = book.getTitle().isEmpty()?oldBook.getTitle():book.getTitle();
+        String newAuthor = book.getAuthor().isEmpty()?oldBook.getAuthor():book.getAuthor();
 
-            String titleUpdateBook = book.getTitle();
-            String authorUpdateBook = book.getAuthor();
-            String isbnUpdateBook = book.getIsbn();
+        Book newBook = new Book(newTitle,newAuthor,oldBook.getIsbn());
 
-            if (isbnUpdateBook == null) {
-
-            } else {
-
-            }
+        books.put(newBook.getIsbn(), newBook);
 
 
-        } else {
-            //TODO error: ISBN not found
-        }
-
-        return null; //TODO return result
+        return MediaServiceResult.OK;
     }
 
     @Override
     public MediaServiceResult updateDisc(Disc disc, String barcode) {
-        return null;
+        if (!disc.getBarcode().equals(disc)) {
+            //modifying is Barcode is not allowed
+            return MediaServiceResult.MODIFYING_BARCODE_NOT_ALLOWED;
+        }
+
+        if (!books.containsKey(disc.getBarcode())) {
+            //Barcode not found
+            return MediaServiceResult.BARCODE_NOT_FOUND;
+        }
+
+        if (disc.getDirector().isEmpty() || disc.getTitle().isEmpty() || disc.getFsk() == -1) {
+            //author, title and fsk are missing
+            return MediaServiceResult.INCOMPLETE_ARGUMENTS;
+        }
+
+        MediaServiceResult result;
+
+        Disc oldDisc = discs.get(disc.getBarcode());
+        discs.remove(oldDisc);
+
+        String newTitle = disc.getTitle().isEmpty()?oldDisc.getTitle():disc.getTitle();
+        String newDirector = disc.getDirector().isEmpty()?oldDisc.getDirector():disc.getDirector();
+        int newfsk = disc.getFsk() == -1?oldDisc.getFsk():disc.getFsk();
+
+        Disc newDisc = new Disc(newTitle,oldDisc.getBarcode(),newDirector,newfsk);
+
+        discs.put(newDisc.getBarcode(), newDisc);
+
+
+        return MediaServiceResult.OK;
     }
 
 
