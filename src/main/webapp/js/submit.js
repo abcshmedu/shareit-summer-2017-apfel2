@@ -14,7 +14,7 @@ var submitNewBook = function() {
 			author: $("input[name=author]").val(),
 			isbn: $("input[name=isbn]").val()
 	});
-	var errorText = $("#errormessageBook");
+	var errorText = $("#errormessage");
     $.ajax({
         url: '/shareit/media/books/',
         type:'POST',
@@ -31,7 +31,7 @@ var submitNewBook = function() {
         })
         .fail((error) => {
         	errorText.addClass("visible");
-        	errorText.text(error.responseJSON.detail);
+        	errorText.text(error.responseJSON.message);
         	errorText.removeClass("hidden");
         });
 }
@@ -47,7 +47,7 @@ var submitNewDisc = function() {
         barcode: $("input[name=barcode]").val(),
         fsk: $("input[name=fsk]").val()
     });
-    var errorText = $("#errormessageBook");
+    var errorText = $("#errormessage");
     $.ajax({
         url: '/shareit/media/discs/',
         type:'POST',
@@ -65,7 +65,7 @@ var submitNewDisc = function() {
 })
     .fail((error) => {
         errorText.addClass("visible");
-    errorText.text(error.responseJSON.detail);
+    errorText.text(error.responseJSON.message);
     errorText.removeClass("hidden");
 });
 }
