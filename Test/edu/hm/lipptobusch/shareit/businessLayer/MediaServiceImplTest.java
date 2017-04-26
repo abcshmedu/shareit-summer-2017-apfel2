@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  */
 public class MediaServiceImplTest {
     @Test
-    public void addBook() throws Exception {
+    public void TestaddBook() throws Exception {
         assertEquals(true, true);
     }
 

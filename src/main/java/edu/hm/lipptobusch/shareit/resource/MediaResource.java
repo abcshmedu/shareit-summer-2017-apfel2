@@ -57,7 +57,7 @@ public class MediaResource{
         }
         System.out.println(json); **/
 
-        return Response.status(result.getStatusCode()).entity(result).build(); //TODO correct response via MediaServiceResult
+        return Response.status(result.getStatusCode()).entity(result).build();
     }
 
     /**
@@ -72,7 +72,7 @@ public class MediaResource{
 
         Medium[] allBooks = mediaService.getBooks();
 
-        return Response.status(201).entity(allBooks).build();
+        return Response.status(Response.Status.OK).entity(allBooks).build();
     }
 
     @GET

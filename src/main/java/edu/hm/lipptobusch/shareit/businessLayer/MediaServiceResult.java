@@ -52,8 +52,7 @@ public enum MediaServiceResult {
     BARCODE_NOT_FOUND(400,"Could not update disc. Barcode does not exist."),
     MODIFYING_ISBN_NOT_ALLOWED(400,"Modifying the isbn is not allowed. Difference between JSON and isbn-param."),
     MODIFYING_BARCODE_NOT_ALLOWED(400,"Modifying the barcode is not allowed. Difference between JSON and barcode-param."),
-    OK(200,"OK 123");
-
+    OK(200,"OK");
 
     private final int statusCode;
     private final String message;
