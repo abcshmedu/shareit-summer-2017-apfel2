@@ -38,9 +38,8 @@ public class MediaResourceTest extends JerseyTest {
                 .request()
                 .post(entity);
 
-        assertSame(200,response.getStatus());
-        assertSame("{\"statusCode\":200,\"message\":\"OK\"}",response.readEntity(String.class));
-
+        assertEquals(200,response.getStatus());
+        assertEquals("{\"statusCode\":200,\"message\":\"OK\"}",response.readEntity(String.class));
     }
 
     @Test
@@ -52,10 +51,9 @@ public class MediaResourceTest extends JerseyTest {
                 .request()
                 .post(Entity.json(firstBook), String.class);
 
-        System.out.println(json);
+        //System.out.println(json);
 
         assertEquals("{\"statusCode\":200,\"message\":\"OK\"}",json);
-
     }
 
     @Test
