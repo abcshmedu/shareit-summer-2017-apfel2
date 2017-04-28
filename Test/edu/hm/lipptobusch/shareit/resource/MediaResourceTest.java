@@ -38,10 +38,8 @@ public class MediaResourceTest extends JerseyTest {
                 .request()
                 .post(entity);
 
-        String s = response.readEntity(String.class);
-        System.out.println(s);
-        System.out.println(response.toString());
-        int status = response.getStatus();
+        assertSame(200,response.getStatus());
+        assertSame("{\"statusCode\":200,\"message\":\"OK\"}",response.readEntity(String.class));
 
     }
 
