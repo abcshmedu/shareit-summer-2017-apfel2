@@ -9,4 +9,5 @@ muss lediglich, ob das Medium zur gegebenen ISBN/Barcode vorhanden ist.
 ###### REST-API
 | URI-Template      | Verb          | Wirkung  |
 | -------------     |-------------  | ------   |
-| uri               | POST          | neues Buchexemplar anlegen<br />Mögliche Fehler: Buch existiert nicht...|
+| /exemp/books/query?user={user}&isbn={isbn}               | POST          | neues Buch-Exemplar anlegen<br />Mögliche Fehler: ISBN nicht vorhanden|
+| /exemp/discs/query?user={user}&barcode={barcode}         | POST          | neues CD-Exemplar anlegen<br />Mögliche Fehler: Barcode nicht vorhanden|
