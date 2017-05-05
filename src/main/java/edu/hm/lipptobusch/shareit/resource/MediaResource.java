@@ -24,7 +24,7 @@ import javax.ws.rs.core.MediaType;
  * @version 2017-04-19
  */
 @Path("media")
-public class MediaResource{
+public class MediaResource {
 
     private static final MediaService mediaService = new MediaServiceImpl();
 

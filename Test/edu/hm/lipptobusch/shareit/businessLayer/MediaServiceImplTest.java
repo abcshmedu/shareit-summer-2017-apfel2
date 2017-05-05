@@ -20,4 +20,43 @@ public class MediaServiceImplTest {
         assertEquals(true, true);
     }
 
+    @Test
+    public void testAddBook() throws Exception {
+
+    }
+
+    @Test
+    public void testAddDisc() throws Exception {
+
+    }
+
+    @Test
+    public void testGetBooks() throws Exception {
+
+    }
+
+    @Test
+    public void testGetDiscs() throws Exception {
+
+    }
+
+    @Test
+    public void testGetBook() throws Exception {
+
+    }
+
+    @Test
+    public void testGetDisc() throws Exception {
+
+    }
+
+    @Test
+    public void testUpdateBook() throws Exception {
+
+    }
+
+    @Test
+    public void testUpdateDisc() throws Exception {
+
+    }
 }
