@@ -1,13 +1,12 @@
 package edu.hm.lipptobusch.shareit.resource;
 
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
-/**
- * Created by mx on 26.04.17.
- */
 public class MediaRessourceTest {
-    @Test
-    public void addBookTest(){
 
+    @Test
+    public void TestaddBook() throws Exception {
+        assertEquals(true, true);
     }
 }
