@@ -49,7 +49,7 @@ public class MediaServiceImpl implements MediaService{
 
         books.put(book.getIsbn(), book);
 
-        System.out.println("added book: " + books.containsKey(book.getIsbn())); //TODO DELETE testing line
+        //System.out.println("added book: " + books.containsKey(book.getIsbn())); //TODO DELETE testing line
 
         return MediaServiceResult.OK;
     }
