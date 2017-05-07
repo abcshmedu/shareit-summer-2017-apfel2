@@ -81,7 +81,7 @@ public class MediaResource {
     public Response getBook(@PathParam("isbn") String isbn) {
         Medium book = mediaService.getBook(isbn);
 
-        return Response.status(201).entity(book).build();
+        return Response.status(200).entity(book).build();
     }
 
 
@@ -104,7 +104,7 @@ public class MediaResource {
 
         Medium[] allBooks = mediaService.getDiscs();
 
-        return Response.status(201).entity(allBooks).build();
+        return Response.status(200).entity(allBooks).build();
     }
 
     @GET
@@ -113,7 +113,7 @@ public class MediaResource {
     public Response getDisc(@PathParam("barcode") String barcode) {
         Medium disc = mediaService.getDisc(barcode);
 
-        return Response.status(201).entity(disc).build();
+        return Response.status(200).entity(disc).build();
     }
 
     /**
