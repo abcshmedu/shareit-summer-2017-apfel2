@@ -3,6 +3,8 @@
 *.class
 .settings/
 .idea/
+*.iml
+*.DS_Store
 target/
 
 # Mobile Tools for Java (J2ME)
