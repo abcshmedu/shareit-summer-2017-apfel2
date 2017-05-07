@@ -261,7 +261,7 @@ public class MediaServiceImplTest {
     @Test
     public void testAddDiscSuccessful() {
         //arrange
-        Disc discToAdd = new Disc("title", "12345667", "director",12);
+        Disc discToAdd = new Disc("title", "7010745910963", "director",12);
         MediaServiceResult expected = MediaServiceResult.OK;
 
         //act
@@ -277,8 +277,8 @@ public class MediaServiceImplTest {
     @Test
     public void testAddDiscDuplicateBarcode() {
         //arrange
-        Disc discToAdd = new Disc("title", "12345667", "director",12);
-        Disc discWithError = new Disc("title2", "12345667", "director2",16);
+        Disc discToAdd = new Disc("title", "7010745910963", "director",12);
+        Disc discWithError = new Disc("title2", "7010745910963", "director2",16);
         MediaServiceResult expected = MediaServiceResult.DUPLICATE_Barcode;
 
         //act
@@ -295,7 +295,7 @@ public class MediaServiceImplTest {
     @Test
     public void testAddDiscIncompleteArgumentsBecauseOfMissingDirector() {
         //arrange
-        Disc discToAdd = new Disc("title", "12345667", "",12);
+        Disc discToAdd = new Disc("title", "7010745910963", "",12);
         MediaServiceResult expected = MediaServiceResult.INCOMPLETE_ARGUMENTS;
 
         //act
@@ -310,7 +310,7 @@ public class MediaServiceImplTest {
     @Test
     public void testAddDiscIncompleteArgumentsBecauseOfMissingTitle() {
         //arrange
-        Disc discToAdd = new Disc("", "12345667", "director",12);
+        Disc discToAdd = new Disc("", "7010745910963", "director",12);
         MediaServiceResult expected = MediaServiceResult.INCOMPLETE_ARGUMENTS;
 
         //act
@@ -354,8 +354,8 @@ public class MediaServiceImplTest {
     @Test
     public void testGetDiscsAddTwoDiscsSuccessful() {
         //arrange
-        Disc discOne = new Disc("title", "12345667", "director",12);
-        Disc discTwo = new Disc("title2", "12345663", "director2",16);
+        Disc discOne = new Disc("title", "0123456789012", "director",12);
+        Disc discTwo = new Disc("title2", "1000200100103", "director2",16);
         MediaServiceResult expected = MediaServiceResult.OK;
 
         //act
@@ -376,11 +376,11 @@ public class MediaServiceImplTest {
     @Test
     public void testGetDisc(){
         //arrange
-        Disc discOne = new Disc("title", "12345667", "director",12);
+        Disc discOne = new Disc("title", "1000200100103", "director",12);
 
         //act
         mediaService.addDisc(discOne);
-        Medium actual = mediaService.getDisc("12345667");
+        Medium actual = mediaService.getDisc("1000200100103");
 
         //assert
         assertEquals(discOne,actual);
@@ -389,7 +389,7 @@ public class MediaServiceImplTest {
     @Test
     public void testGetDiscBarcodeDoesNotExist(){
         //arrange
-        Disc discOne = new Disc("title", "12345667", "director",12);
+        Disc discOne = new Disc("title", "1000200100103", "director",12);
 
         //act
         mediaService.addDisc(discOne);
@@ -404,15 +404,15 @@ public class MediaServiceImplTest {
     @Test
     public void testUpdateDiscUpdatingTitle() {
         //arrange
-        Disc discToUpdate = new Disc("title", "12345667", "director",12);
-        Disc discWithModifications = new Disc("title2", "12345667", "",12);
-        Disc discExptected = new Disc("title2", "12345667", "director",12);
+        Disc discToUpdate = new Disc("title", "1000200100103", "director",12);
+        Disc discWithModifications = new Disc("title2", "1000200100103", "",12);
+        Disc discExptected = new Disc("title2", "1000200100103", "director",12);
         MediaServiceResult expected = MediaServiceResult.OK;
 
         //act
         mediaService.addDisc(discToUpdate);
-        MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "12345667");
-        Medium updatedDisc = mediaService.getDisc("12345667");
+        MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "1000200100103");
+        Medium updatedDisc = mediaService.getDisc("1000200100103");
 
         //assert
         assertEquals(discExptected, updatedDisc);
@@ -422,15 +422,15 @@ public class MediaServiceImplTest {
     @Test
     public void testUpdateDiscUpdatingDirector() {
         //arrange
-        Disc discToUpdate = new Disc("title", "12345667", "director",12);
-        Disc discWithModifications = new Disc("", "12345667", "director2",12);
-        Disc discExptected = new Disc("title", "12345667", "director2",12);
+        Disc discToUpdate = new Disc("title", "1000200100103", "director",12);
+        Disc discWithModifications = new Disc("", "1000200100103", "director2",12);
+        Disc discExptected = new Disc("title", "1000200100103", "director2",12);
         MediaServiceResult expected = MediaServiceResult.OK;
 
         //act
         mediaService.addDisc(discToUpdate);
-        MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "12345667");
-        Medium updatedDisc = mediaService.getDisc("12345667");
+        MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "1000200100103");
+        Medium updatedDisc = mediaService.getDisc("1000200100103");
 
         //assert
         assertEquals(discExptected, updatedDisc);
@@ -440,15 +440,15 @@ public class MediaServiceImplTest {
     @Test
     public void testUpdateDiscUpdatingFsk() {
         //arrange
-        Disc discToUpdate = new Disc("title", "12345667", "director",12);
-        Disc discWithModifications = new Disc("", "12345667", "",18);
-        Disc discExptected = new Disc("title", "12345667", "director",18);
+        Disc discToUpdate = new Disc("title", "1000200100103", "director",12);
+        Disc discWithModifications = new Disc("", "1000200100103", "",18);
+        Disc discExptected = new Disc("title", "1000200100103", "director",18);
         MediaServiceResult expected = MediaServiceResult.OK;
 
         //act
         mediaService.addDisc(discToUpdate);
-        MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "12345667");
-        Medium updatedDisc = mediaService.getDisc("12345667");
+        MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "1000200100103");
+        Medium updatedDisc = mediaService.getDisc("1000200100103");
 
         //assert
         assertEquals(discExptected, updatedDisc);
@@ -488,13 +488,13 @@ public class MediaServiceImplTest {
     @Test
     public void testUpdateDiscIncompleteArguments() {
         //arrange
-        Disc discToUpdate = new Disc("title", "12345667", "director",12);
-        Disc discWithModifications = new Disc("", "12345667", "",-1);
+        Disc discToUpdate = new Disc("title", "1000200100103", "director",12);
+        Disc discWithModifications = new Disc("", "1000200100103", "",-1);
         MediaServiceResult expected = MediaServiceResult.INCOMPLETE_ARGUMENTS;
 
         //act
         mediaService.addDisc(discToUpdate);
-        MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "12345667");
+        MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "1000200100103");
 
         //assert
         assertEquals(expected.getMessage(), actual.getMessage());
