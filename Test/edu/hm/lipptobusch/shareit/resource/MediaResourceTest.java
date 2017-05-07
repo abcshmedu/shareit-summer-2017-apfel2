@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 /**
  * Created by mx on 26.04.17.
  */
-public class MediaResourceTest_First_Try {
+public class MediaResourceTest {
 
     //----------------------------------------------
     //          Tests for addBook()
