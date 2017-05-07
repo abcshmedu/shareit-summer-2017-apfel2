@@ -458,13 +458,13 @@ public class MediaServiceImplTest {
     @Test
     public void testUpdateDiscModifiyingBarcodeNotAllwoed() {
         //arrange
-        Disc discToUpdate = new Disc("title", "12345667", "director",12);
-        Disc discWithModifications = new Disc("", "12345662", "",18);
+        Disc discToUpdate = new Disc("title", "1000200100103", "director",12);
+        Disc discWithModifications = new Disc("", "0123456789012", "",18);
         MediaServiceResult expected = MediaServiceResult.MODIFYING_BARCODE_NOT_ALLOWED;
 
         //act
         mediaService.addDisc(discToUpdate);
-        MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "12345667");
+        MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "1000200100103");
 
         //assert
         assertEquals(expected.getMessage(), actual.getMessage());
@@ -473,13 +473,13 @@ public class MediaServiceImplTest {
     @Test
     public void testUpdateDiscBarcodeNotFound() {
         //arrange
-        Disc discToUpdate = new Disc("title", "12345667", "director",12);
-        Disc discWithModifications = new Disc("", "12345662", "",18);
+        Disc discToUpdate = new Disc("title", "1000200100103", "director",12);
+        Disc discWithModifications = new Disc("", "0123456789012", "",18);
         MediaServiceResult expected = MediaServiceResult.MODIFYING_BARCODE_NOT_ALLOWED;
 
         //act
         mediaService.addDisc(discToUpdate);
-        MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "12345667");
+        MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "1000200100103");
 
         //assert
         assertEquals(expected.getMessage(), actual.getMessage());
