@@ -2,12 +2,14 @@ package edu.hm.lipptobusch.shareit.resource;
 
 
 import edu.hm.lipptobusch.shareit.models.Book;
+import org.apache.commons.validator.ISBNValidator;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.SyncInvoker;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -58,7 +60,20 @@ public class MediaResourceTest extends JerseyTest {
 
     @Test
     public void testGetBooks() throws Exception {
+        WebTarget source = target("media/books");
+        final Book firstBook = new Book("title1","author1","9783813506860");
+        final Book sndBook = new Book("title2","author2","9783866801929");
 
+        source.request().post(Entity.json(sndBook));
+        source.request().post(Entity.json(firstBook));
+
+        ISBNValidator validator = new ISBNValidator();
+
+
+        Response list = source.request().get();
+
+        System.out.println(list.readEntity(String.class));
+        System.out.println(validator.isValid("3328100342"));
     }
 
     @Test
