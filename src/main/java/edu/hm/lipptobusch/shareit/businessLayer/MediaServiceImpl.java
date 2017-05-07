@@ -29,7 +29,6 @@ public class MediaServiceImpl implements MediaService{
 
     @Override
     public MediaServiceResult addBook(Book book) {
-        //TODO dealing with errors (author or title is missing; duplicate ISBN; invalid ISBN)
 
         if (books.containsKey(book.getIsbn())) {
             //Error duplicate ISBN
@@ -49,15 +48,11 @@ public class MediaServiceImpl implements MediaService{
 
         books.put(book.getIsbn(), book);
 
-        //System.out.println("added book: " + books.containsKey(book.getIsbn())); //TODO DELETE testing line
-
         return MediaServiceResult.OK;
     }
 
     @Override
     public MediaServiceResult addDisc(Disc disc) {
-        //TODO dealing with errors (director or title or fsk is missing; duplicate barcode; invalid barcode)
-        //error values for Strings are null and for fsk -1
 
         if (discs.containsKey(disc.getBarcode())) {
             //Error duplicate ISBN
@@ -65,7 +60,7 @@ public class MediaServiceImpl implements MediaService{
             return MediaServiceResult.DUPLICATE_Barcode;
         }
 
-        if (!barcodeIsValid(disc.getBarcode())) {
+        if (!barcodeIsValid(disc.getBarcode()) || disc.getBarcode().isEmpty()) {
             return MediaServiceResult.INVALID_BARCODE;
         }
 
@@ -76,8 +71,6 @@ public class MediaServiceImpl implements MediaService{
         }
 
         discs.put(disc.getBarcode(), disc);
-
-        System.out.println("added disc: " + discs.containsKey(disc.getBarcode())); //TODO DELETE testing line
 
 
         return MediaServiceResult.OK;
@@ -134,7 +127,7 @@ public class MediaServiceImpl implements MediaService{
             return MediaServiceResult.ISBN_NOT_FOUND;
         }
 
-        if (book.getAuthor().isEmpty() || book.getTitle().isEmpty()) {
+        if (book.getAuthor().isEmpty() && book.getTitle().isEmpty()) {
             //author and title are missing
             return MediaServiceResult.INCOMPLETE_ARGUMENTS;
         }
@@ -157,17 +150,17 @@ public class MediaServiceImpl implements MediaService{
 
     @Override
     public MediaServiceResult updateDisc(Disc disc, String barcode) {
-        if (!disc.getBarcode().equals(disc)) {
+        if (!disc.getBarcode().equals(barcode)) {
             //modifying is Barcode is not allowed
             return MediaServiceResult.MODIFYING_BARCODE_NOT_ALLOWED;
         }
 
-        if (!books.containsKey(disc.getBarcode())) {
+        if (!discs.containsKey(disc.getBarcode())) {
             //Barcode not found
             return MediaServiceResult.BARCODE_NOT_FOUND;
         }
 
-        if (disc.getDirector().isEmpty() || disc.getTitle().isEmpty() || disc.getFsk() == -1) {
+        if (disc.getDirector().isEmpty() && disc.getTitle().isEmpty() && disc.getFsk() == -1) {
             //author, title and fsk are missing
             return MediaServiceResult.INCOMPLETE_ARGUMENTS;
         }
