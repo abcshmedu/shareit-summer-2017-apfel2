@@ -207,12 +207,30 @@ public class MediaServiceImpl implements MediaService{
 
             if(isbn[12] == 10 - (sum % 10)) return true;
         }
-
         return false;
     }
 
     private boolean barcodeIsValid(String barcode) {
-        //TODO algorithm for checking barcode
-        return true;
+        if(barcode.length() == 13) {
+            final int[] ean13 = barcode.chars()
+                    .map(x -> Character.getNumericValue(x))
+                    .limit(12)
+                    .toArray();
+
+            return calculateCheckDigit(ean13) == Character.getNumericValue(barcode.charAt(12));
+        }
+        return false;
     }
+
+    private int calculateCheckDigit(int[] digits) {
+        int sum = 0;
+        int multiplier = 3;
+        for (int i = digits.length - 1; i >= 0; i--) {
+        sum += digits[i] * multiplier;
+        multiplier = (multiplier == 3) ? 1 : 3;
+            }
+        int sumPlus9 = sum + 9;
+        int nextMultipleOfTen = sumPlus9 - (sumPlus9 % 10); // nextMultipleOfTen ist jetzt das nächste Vielfache von zehn
+        return nextMultipleOfTen - sum;
+        }
 }

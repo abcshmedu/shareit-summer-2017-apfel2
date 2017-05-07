@@ -3,7 +3,6 @@
  * Purpose: lab software-architecture, IF4B, SS2017
  * Purpose: solution of assignment 2
  */
-
 package edu.hm.lipptobusch.shareit.models;
 
 /**
