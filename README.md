@@ -2,5 +2,8 @@
  
 Maximilian Lipp, Florian Tobusch
 
-Link zu Heroku:<br />
-https://soft-arch-lab2-shareit.herokuapp.com
+Link zu Heroku (frontend):<br />
+https://soft-arch-lab2-shareit.herokuapp.com<br />
+<br />
+Link zu Heroku (REST):<br />
+https://soft-arch-lab2-shareit.herokuapp.com/shareit<br />
