@@ -17,6 +17,12 @@ import edu.hm.lipptobusch.shareit.models.Medium;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu
@@ -43,22 +49,58 @@ public class MediaResource {
     @Path("books")
     @Consumes(MediaType.APPLICATION_JSON) //Jersey will use Jackson to handle the JSON conversion automatically
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createBook(Book book) {
+    public Response createBook(Book book, @QueryParam("token") String token) {
+
+        //http://localhost:2222/media/books/param?token=asdkfjpaweoi
+        
+        if (callOAuthServer(token).isEmpty()) {
+            return Response.status(404).entity("token not valid").build();
+        }
 
         MediaServiceResult result = mediaService.addBook(book);
 
-        /**
-        String json = null;
-         ObjectMapper mapper = new ObjectMapper();
-        try {
-            json= mapper.writeValueAsString(result);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        System.out.println(json); **/
-
         return Response.status(result.getStatusCode()).entity(result).build();
     }
+
+
+    private String callOAuthServer(String token) {
+        //call oAuth-Server
+        // get "admin": "true"
+        // or empty String if token is not valid
+
+        String result = "";
+
+        System.out.println("token: " + token);
+
+        try {
+            URL url = new URL("http://localhost:8333/shareit/users/login/" + token);
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection)con;
+            http.setRequestMethod("GET"); // PUT is another valid option
+            http.setDoOutput(true);
+
+            //System.out.println(http.getResponseMessage());    //OK
+            //System.out.println(http.getResponseCode());       //200
+
+            if (200 == http.getResponseCode()) {
+                BufferedReader br = new BufferedReader(new InputStreamReader((http.getInputStream())));
+                String currentLine = "";
+                while ((currentLine = br.readLine()) != null) {
+                    result += currentLine;
+                }
+            }
+
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
 
     /**
      * URI-Template     Verb    Wirkung
@@ -68,7 +110,14 @@ public class MediaResource {
     @GET
     @Path("books")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getBooks() {
+    public Response getBooks(@QueryParam("token") String token) {
+
+        String test = callOAuthServer(token);
+        System.out.println("Test!"+test);
+
+        if (test.isEmpty()) {
+            return Response.status(404).entity("token not valid").build();
+        }
 
         Medium[] allBooks = mediaService.getBooks();
 
@@ -78,7 +127,12 @@ public class MediaResource {
     @GET
     @Path("books/{isbn}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getBook(@PathParam("isbn") String isbn) {
+    public Response getBook(@PathParam("isbn") String isbn, @QueryParam("token") String token) {
+
+        if (callOAuthServer(token).isEmpty()) {
+            return Response.status(404).entity("token not valid").build();
+        }
+
         Medium book = mediaService.getBook(isbn);
 
         return Response.status(200).entity(book).build();
@@ -89,7 +143,11 @@ public class MediaResource {
     @Path("discs")
     @Consumes(MediaType.APPLICATION_JSON) //Jersey will use Jackson to handle the JSON conversion automatically
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createDisc(Disc disc) {
+    public Response createDisc(Disc disc, @QueryParam("token") String token) {
+
+        if (callOAuthServer(token).isEmpty()) {
+            return Response.status(404).entity("token not valid").build();
+        }
 
         MediaServiceResult result = mediaService.addDisc(disc);
 
@@ -100,7 +158,11 @@ public class MediaResource {
     @GET
     @Path("discs")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getDiscs() {
+    public Response getDiscs(@QueryParam("token") String token) {
+
+        if (callOAuthServer(token).isEmpty()) {
+            return Response.status(404).entity("token not valid").build();
+        }
 
         Medium[] allBooks = mediaService.getDiscs();
 
@@ -110,7 +172,12 @@ public class MediaResource {
     @GET
     @Path("discs/{barcode}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getDisc(@PathParam("barcode") String barcode) {
+    public Response getDisc(@PathParam("barcode") String barcode, @QueryParam("token") String token) {
+
+        if (callOAuthServer(token).isEmpty()) {
+            return Response.status(404).entity("token not valid").build();
+        }
+
         Medium disc = mediaService.getDisc(barcode);
 
         return Response.status(200).entity(disc).build();
@@ -132,7 +199,12 @@ public class MediaResource {
     @Path("books/{isbn}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateBook(@PathParam("isbn") String isbn, Book book) {
+    public Response updateBook(@PathParam("isbn") String isbn, Book book, @QueryParam("token") String token) {
+
+        if (callOAuthServer(token).isEmpty()) {
+            return Response.status(404).entity("token not valid").build();
+        }
+
         MediaServiceResult result = mediaService.updateBook(book, isbn);
 
         return Response.status(result.getStatusCode()).entity(result).build();
@@ -143,7 +215,12 @@ public class MediaResource {
     @Path("discs/{barcode}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateDisc(@PathParam("barcode") String barcode, Disc disc) {
+    public Response updateDisc(@PathParam("barcode") String barcode, Disc disc, @QueryParam("token") String token) {
+
+        if (callOAuthServer(token).isEmpty()) {
+            return Response.status(404).entity("token not valid").build();
+        }
+
         MediaServiceResult result = mediaService.updateDisc(disc, barcode);
 
         return Response.status(result.getStatusCode()).entity(result).build();
