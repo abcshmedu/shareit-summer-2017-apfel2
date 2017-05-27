@@ -38,6 +38,8 @@ public class MediaResource {
      * URI-Template     Verb    Wirkung
      * /media/books     POST    Neues Medium Buch anlegen
      *
+     * .../media/books?token=asdkfjpaweoi
+     *
      * Moeglicher Fehler: Ungueltige ISBN
      * Moeglicher Fehler: ISBN bereits vorhanden
      * Moeglicher Fehler: Autor oder Titel fehlt
@@ -51,55 +53,14 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createBook(Book book, @QueryParam("token") String token) {
 
-        //http://localhost:2222/media/books/param?token=asdkfjpaweoi
-        
         if (callOAuthServer(token).isEmpty()) {
-            return Response.status(404).entity("token not valid").build();
+            return Response.status(MediaServiceResult.TOKEN_NOT_VALID.getStatusCode()).entity(MediaServiceResult.TOKEN_NOT_VALID).build();
         }
 
         MediaServiceResult result = mediaService.addBook(book);
 
         return Response.status(result.getStatusCode()).entity(result).build();
     }
-
-
-    private String callOAuthServer(String token) {
-        //call oAuth-Server
-        // get "admin": "true"
-        // or empty String if token is not valid
-
-        String result = "";
-
-        System.out.println("token: " + token);
-
-        try {
-            URL url = new URL("http://localhost:8333/shareit/users/login/" + token);
-            URLConnection con = url.openConnection();
-            HttpURLConnection http = (HttpURLConnection)con;
-            http.setRequestMethod("GET"); // PUT is another valid option
-            http.setDoOutput(true);
-
-            //System.out.println(http.getResponseMessage());    //OK
-            //System.out.println(http.getResponseCode());       //200
-
-            if (200 == http.getResponseCode()) {
-                BufferedReader br = new BufferedReader(new InputStreamReader((http.getInputStream())));
-                String currentLine = "";
-                while ((currentLine = br.readLine()) != null) {
-                    result += currentLine;
-                }
-            }
-
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
 
 
     /**
@@ -116,7 +77,7 @@ public class MediaResource {
         System.out.println("Test!"+test);
 
         if (test.isEmpty()) {
-            return Response.status(404).entity("token not valid").build();
+            return Response.status(MediaServiceResult.TOKEN_NOT_VALID.getStatusCode()).entity(MediaServiceResult.TOKEN_NOT_VALID).build();
         }
 
         Medium[] allBooks = mediaService.getBooks();
@@ -130,7 +91,7 @@ public class MediaResource {
     public Response getBook(@PathParam("isbn") String isbn, @QueryParam("token") String token) {
 
         if (callOAuthServer(token).isEmpty()) {
-            return Response.status(404).entity("token not valid").build();
+            return Response.status(MediaServiceResult.TOKEN_NOT_VALID.getStatusCode()).entity(MediaServiceResult.TOKEN_NOT_VALID).build();
         }
 
         Medium book = mediaService.getBook(isbn);
@@ -146,7 +107,7 @@ public class MediaResource {
     public Response createDisc(Disc disc, @QueryParam("token") String token) {
 
         if (callOAuthServer(token).isEmpty()) {
-            return Response.status(404).entity("token not valid").build();
+            return Response.status(MediaServiceResult.TOKEN_NOT_VALID.getStatusCode()).entity(MediaServiceResult.TOKEN_NOT_VALID).build();
         }
 
         MediaServiceResult result = mediaService.addDisc(disc);
@@ -161,7 +122,7 @@ public class MediaResource {
     public Response getDiscs(@QueryParam("token") String token) {
 
         if (callOAuthServer(token).isEmpty()) {
-            return Response.status(404).entity("token not valid").build();
+            return Response.status(MediaServiceResult.TOKEN_NOT_VALID.getStatusCode()).entity(MediaServiceResult.TOKEN_NOT_VALID).build();
         }
 
         Medium[] allBooks = mediaService.getDiscs();
@@ -175,7 +136,7 @@ public class MediaResource {
     public Response getDisc(@PathParam("barcode") String barcode, @QueryParam("token") String token) {
 
         if (callOAuthServer(token).isEmpty()) {
-            return Response.status(404).entity("token not valid").build();
+            return Response.status(MediaServiceResult.TOKEN_NOT_VALID.getStatusCode()).entity(MediaServiceResult.TOKEN_NOT_VALID).build();
         }
 
         Medium disc = mediaService.getDisc(barcode);
@@ -202,7 +163,7 @@ public class MediaResource {
     public Response updateBook(@PathParam("isbn") String isbn, Book book, @QueryParam("token") String token) {
 
         if (callOAuthServer(token).isEmpty()) {
-            return Response.status(404).entity("token not valid").build();
+            return Response.status(MediaServiceResult.TOKEN_NOT_VALID.getStatusCode()).entity(MediaServiceResult.TOKEN_NOT_VALID).build();
         }
 
         MediaServiceResult result = mediaService.updateBook(book, isbn);
@@ -218,12 +179,64 @@ public class MediaResource {
     public Response updateDisc(@PathParam("barcode") String barcode, Disc disc, @QueryParam("token") String token) {
 
         if (callOAuthServer(token).isEmpty()) {
-            return Response.status(404).entity("token not valid").build();
+            return Response.status(MediaServiceResult.TOKEN_NOT_VALID.getStatusCode()).entity(MediaServiceResult.TOKEN_NOT_VALID).build();
         }
 
         MediaServiceResult result = mediaService.updateDisc(disc, barcode);
 
         return Response.status(result.getStatusCode()).entity(result).build();
+    }
+
+
+    /**
+     * Call OAuthServer for validating a token.
+     *
+     * @param token token as string
+     * @return JSON with information, if user is admin or not. Empty string if token is not valid.
+     */
+    private String callOAuthServer(String token) {
+        //call oAuth-Server
+        // get "admin": "true"
+        // or empty String if token is not valid
+
+        String urlLocal = "http://localhost:8333/shareit/users/login/";
+        String urlHeroku = "https://#########.herokuapp.com/shareit/users/login/";
+
+
+        String result = "";
+
+        //System.out.println("token: " + token);
+
+        try {
+            URL url = new URL(urlLocal + token);
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection)con;
+            http.setRequestMethod("GET"); // PUT is another valid option
+            http.setDoOutput(true);
+
+            //System.out.println(http.getResponseMessage());    //OK
+            //System.out.println(http.getResponseCode());       //200
+
+            if (200 == http.getResponseCode()) {
+                BufferedReader br = new BufferedReader(new InputStreamReader((http.getInputStream())));
+                String currentLine = "";
+                while ((currentLine = br.readLine()) != null) {
+                    result += currentLine;
+                }
+            }
+
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public void resetDataBase() {
+        mediaService.clearMap();
     }
 
 }

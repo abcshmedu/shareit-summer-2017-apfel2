@@ -232,5 +232,15 @@ public class MediaServiceImpl implements MediaService{
         int sumPlus9 = sum + 9;
         int nextMultipleOfTen = sumPlus9 - (sumPlus9 % 10); // nextMultipleOfTen ist jetzt das nächste Vielfache von zehn
         return nextMultipleOfTen - sum;
-        }
+    }
+
+
+    /**
+     * resetting the Maps for testing.
+     */
+    @Override
+    public void clearMap() {
+        books.clear();
+        discs.clear();
+    }
 }

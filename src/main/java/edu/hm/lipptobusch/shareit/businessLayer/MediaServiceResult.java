@@ -43,6 +43,7 @@ public enum MediaServiceResult {
 
      */
 
+    TOKEN_NOT_VALID(404,"Token not valid"),
     DUPLICATE_ISBN(400,"The ISBN already exists"),
     DUPLICATE_Barcode(400,"The Barcode already exists"),
     INVALID_ISBN(400,"The ISBN is not valid"),

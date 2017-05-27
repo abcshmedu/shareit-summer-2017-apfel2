@@ -32,4 +32,6 @@ public interface MediaService {
     MediaServiceResult updateBook(Book book, String isbn);
 
     MediaServiceResult updateDisc(Disc disc, String barcode);
+
+    void clearMap();
 }

@@ -10,10 +10,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by floriantobusch on 07.05.17.
+ * @author Maximilian Lipp, lipp@hm.edu
+ * @author Florian Tobusch, tobusch@hm.edu
+ * @version 2017-04-19
  */
 public class MediaServiceImplTest {
-    MediaServiceImpl mediaService;
+    private MediaServiceImpl mediaService;
 
     @Before
     public void initialize(){
