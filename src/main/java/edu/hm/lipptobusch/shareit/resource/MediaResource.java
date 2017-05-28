@@ -200,7 +200,7 @@ public class MediaResource {
         // or empty String if token is not valid
 
         String urlLocal = "http://localhost:8333/shareit/users/login/";
-        String urlHeroku = "https://#########.herokuapp.com/shareit/users/login/";
+        String urlHeroku = "https://jularo.herokuapp.com/shareit/users/login/";
 
 
         String result = "";
@@ -208,7 +208,7 @@ public class MediaResource {
         //System.out.println("token: " + token);
 
         try {
-            URL url = new URL(urlLocal + token);
+            URL url = new URL(urlHeroku + token);
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection)con;
             http.setRequestMethod("GET"); // PUT is another valid option
