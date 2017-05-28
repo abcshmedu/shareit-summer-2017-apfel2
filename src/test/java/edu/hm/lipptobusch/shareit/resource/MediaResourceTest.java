@@ -43,12 +43,13 @@ public class MediaResourceTest {
 
     private String generateToken(JSONObject user) {
         String urlLocal = "http://localhost:8333/shareit/users/login/";
+        String urlHeroku = "https://jularo.herokuapp.com/shareit/users/login/";
 
         String result = "";
 
 
         try {
-            URL url = new URL(urlLocal);
+            URL url = new URL(urlHeroku);
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection)con;
             http.setRequestMethod("POST");
