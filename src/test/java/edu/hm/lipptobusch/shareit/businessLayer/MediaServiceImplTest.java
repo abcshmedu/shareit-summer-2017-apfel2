@@ -42,6 +42,23 @@ public class MediaServiceImplTest {
         assertEquals(expected.getStatusCode(), actual.getStatusCode());
     }
     @Test
+    public void testAddBookSuccessfulWithLines() {
+        //arrange
+        Book bookToAdd = new Book("title", "autor", "978-3-446-42150-9");
+        Book bookExpected = new Book("title", "autor", "9783446421509");
+        MediaServiceResult expected = MediaServiceResult.OK;
+
+        //act
+        MediaServiceResult actual = mediaService.addBook(bookToAdd);
+        Medium[] allBooks = mediaService.getBooks();
+
+        //assert
+        assertEquals(1, allBooks.length);
+        assertEquals(bookExpected, allBooks[0]);
+        assertEquals(expected.getMessage(), actual.getMessage());
+        assertEquals(expected.getStatusCode(), actual.getStatusCode());
+    }
+    @Test
     public void testAddBookWithDuplicateIsbn(){
         //arrange
         Book bookToAdd = new Book("title", "autor", "9783866801929");
@@ -155,6 +172,19 @@ public class MediaServiceImplTest {
         //assert
         assertEquals(bookOne,actual);
     }
+    @Test
+    public void testGetBookWithSlashes(){
+        //arrange
+        Book bookOne = new Book("title", "autor", "978-3-446-42150-9");
+        Book bookExpected = new Book("title", "autor", "9783446421509");
+
+        //act
+        mediaService.addBook(bookOne);
+        Medium actual = mediaService.getBook("978-3-446-42150-9");
+
+        //assert
+        assertEquals(bookExpected,actual);
+    }
 
     @Test
     public void testGetBookIsbnDoesNotExist(){
@@ -184,6 +214,24 @@ public class MediaServiceImplTest {
         mediaService.addBook(bookToUpdate);
         MediaServiceResult actual = mediaService.updateBook(bookWithModifications, "9783866801929");
         Medium updatedBook = mediaService.getBook("9783866801929");
+
+        //assert
+        assertEquals(bookExpected,updatedBook);
+        assertEquals(expected.getMessage(), actual.getMessage());
+        assertEquals(expected.getStatusCode(), actual.getStatusCode());
+    }
+    @Test
+    public void testUpdateBookWithUpdatingTitleAndSlashesInIsbn(){
+        //arrange
+        Book bookToUpdate = new Book("title", "autor", "978-3-446-42150-9");
+        Book bookWithModifications = new Book("title2", "", "978-3-446-42150-9");
+        Book bookExpected = new Book("title2", "autor", "9783446421509");
+        MediaServiceResult expected = MediaServiceResult.OK;
+
+        //act
+        mediaService.addBook(bookToUpdate);
+        MediaServiceResult actual = mediaService.updateBook(bookWithModifications, "978-3-446-42150-9");
+        Medium updatedBook = mediaService.getBook("978-3-446-42150-9");
 
         //assert
         assertEquals(bookExpected,updatedBook);

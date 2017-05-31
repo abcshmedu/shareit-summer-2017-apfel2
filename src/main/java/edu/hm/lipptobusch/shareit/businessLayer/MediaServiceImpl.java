@@ -29,6 +29,7 @@ public class MediaServiceImpl implements MediaService{
 
     @Override
     public MediaServiceResult addBook(Book book) {
+        book = new Book(book.getTitle(),book.getAuthor(),deleteDashesInIsbn(book.getIsbn()));
 
         if (books.containsKey(book.getIsbn())) {
             //Error duplicate ISBN
@@ -103,7 +104,7 @@ public class MediaServiceImpl implements MediaService{
 
     @Override
     public Medium getBook(String isbn) {
-        Medium result = books.get(isbn);
+        Medium result = books.get(deleteDashesInIsbn(isbn));
 
         return result;
     }
@@ -117,6 +118,9 @@ public class MediaServiceImpl implements MediaService{
 
     @Override
     public MediaServiceResult updateBook(Book book, String isbn) {
+        book = new Book(book.getTitle(),book.getAuthor(),deleteDashesInIsbn(book.getIsbn()));
+        isbn = deleteDashesInIsbn(isbn);
+
         if (!book.getIsbn().equals(isbn)) {
             //modifying is ISBN is not allowed
             return MediaServiceResult.MODIFYING_ISBN_NOT_ALLOWED;
@@ -242,5 +246,9 @@ public class MediaServiceImpl implements MediaService{
     public void clearMap() {
         books.clear();
         discs.clear();
+    }
+
+    private String deleteDashesInIsbn(String isbn) {
+        return isbn.replaceAll("-","");
     }
 }
