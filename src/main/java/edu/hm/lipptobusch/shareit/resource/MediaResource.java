@@ -74,7 +74,7 @@ public class MediaResource {
     public Response getBooks(@QueryParam("token") String token) {
 
         String test = callOAuthServer(token);
-        System.out.println("Test!"+test);
+        System.out.println("Test!"+test); //TODO: Muss raus!
 
         if (test.isEmpty()) {
             return Response.status(MediaServiceResult.TOKEN_NOT_VALID.getStatusCode()).entity(MediaServiceResult.TOKEN_NOT_VALID).build();
@@ -186,6 +186,8 @@ public class MediaResource {
 
         return Response.status(result.getStatusCode()).entity(result).build();
     }
+
+
 
 
     /**
