@@ -74,7 +74,6 @@ public class MediaResource {
     public Response getBooks(@QueryParam("token") String token) {
 
         String test = callOAuthServer(token);
-        System.out.println("Test!"+test); //TODO: Muss raus!
 
         if (test.isEmpty()) {
             return Response.status(MediaServiceResult.TOKEN_NOT_VALID.getStatusCode()).entity(MediaServiceResult.TOKEN_NOT_VALID).build();
@@ -210,7 +209,7 @@ public class MediaResource {
         //System.out.println("token: " + token);
 
         try {
-            URL url = new URL(urlHeroku + token);
+            URL url = new URL(urlLocal + token);
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection)con;
             http.setRequestMethod("GET"); // PUT is another valid option

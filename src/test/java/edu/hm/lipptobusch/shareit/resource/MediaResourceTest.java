@@ -49,7 +49,7 @@ public class MediaResourceTest {
 
 
         try {
-            URL url = new URL(urlHeroku);
+            URL url = new URL(urlLocal);
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection)con;
             http.setRequestMethod("POST");
@@ -97,7 +97,7 @@ public class MediaResourceTest {
     public void testAddBookWithValidToken() {
         //arrange
         Book bookToAdd = new Book("title", "autor", "9783866801929");
-        String token = generateToken(USER_WITHOUT_ADMIN_RIGHTS);
+        String token = new JSONObject(generateToken(USER_WITHOUT_ADMIN_RIGHTS)).get("token").toString();
 
         //act
         Response actual = mediaResource.createBook(bookToAdd,token);
