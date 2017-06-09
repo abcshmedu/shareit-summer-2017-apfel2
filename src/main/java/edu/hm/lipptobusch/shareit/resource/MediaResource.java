@@ -7,8 +7,8 @@
 package edu.hm.lipptobusch.shareit.resource;
 
 
+import com.google.inject.Inject;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaService;
-import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceImpl;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceResult;
 import edu.hm.lipptobusch.shareit.models.Book;
 import edu.hm.lipptobusch.shareit.models.Disc;
@@ -32,7 +32,12 @@ import java.net.URLConnection;
 @Path("media")
 public class MediaResource {
 
-    private static final MediaService mediaService = new MediaServiceImpl();
+    @Inject
+    private MediaService mediaService;
+
+    MediaResource(MediaService mediaService) {
+        this.mediaService = mediaService;
+    }
 
     /**
      * URI-Template     Verb    Wirkung

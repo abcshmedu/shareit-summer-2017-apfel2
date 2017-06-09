@@ -4,7 +4,7 @@
  * Purpose: solution of assignment 2
  */
 
-package edu.hm.lipptobusch.shareit;
+package edu.hm.lipptobusch.shareit.resource;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -18,7 +18,7 @@ import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceImpl;
  *
  * @author Maximilian Lipp, lipp@hm.edu
  * @author Florian Tobusch, tobusch@hm.edu
- * @version 2017-04-19
+ * @version 2017-06-08
  */
 public class ShareitServletContextListener extends GuiceServletContextListener {
 

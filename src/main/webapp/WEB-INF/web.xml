@@ -44,7 +44,7 @@
 
 	<listener>
 		<listener-class>
-			edu.hm.lipptobusch.shareit.ShareitServletContextListener
-		</listener-class>
+            edu.hm.lipptobusch.shareit.resource.ShareitServletContextListener
+        </listener-class>
 	</listener>
 </web-app>
