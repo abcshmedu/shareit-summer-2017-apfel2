@@ -165,6 +165,9 @@ public class MediaResource {
         return Response.status(result.getStatusCode()).entity(result).build();
     }
 
+    /**
+     * Resetting the database for testing.
+     */
     public void resetDataBase() {
         mediaService.clearMap();
     }

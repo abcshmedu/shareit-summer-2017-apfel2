@@ -27,7 +27,7 @@ import java.net.URLConnection;
 @Provider
 public class OAuthFilter implements ContainerRequestFilter {
     @Override
-    public void filter(ContainerRequestContext requestContext) throws IOException {
+    public void filter(ContainerRequestContext requestContext) throws WebApplicationException {
 
         MultivaluedMap<String, String> queryParams = requestContext.getUriInfo().getQueryParameters();
 
