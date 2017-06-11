@@ -33,7 +33,7 @@ import static org.junit.Assert.*;
  */
 public class MediaResourceTest {
 
-    private MediaResource mediaResource = new MediaResource(new MediaServiceImpl());
+    /*private MediaResource mediaResource = new MediaResource(new MediaServiceImpl());
 
     private final Response EXPECTED_TOKEN_NOT_VALID = Response.status(MediaServiceResult.TOKEN_NOT_VALID.getStatusCode()).entity(MediaServiceResult.TOKEN_NOT_VALID).build();
     private final Response EXPECTED_VALID_TOKEN = Response.status(MediaServiceResult.OK.getStatusCode()).entity(MediaServiceResult.OK).build();
@@ -109,6 +109,6 @@ public class MediaResourceTest {
         //assert
         assertEquals(EXPECTED_VALID_TOKEN.getEntity(), actual.getEntity());
         assertEquals(EXPECTED_VALID_TOKEN.getStatus(), actual.getStatus());
-    }
+    }*/
 
 }
