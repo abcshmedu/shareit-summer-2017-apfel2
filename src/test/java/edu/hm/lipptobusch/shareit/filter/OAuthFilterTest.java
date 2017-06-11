@@ -6,9 +6,9 @@
 package edu.hm.lipptobusch.shareit.filter;
 
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceResult;
-import edu.hm.lipptobusch.shareit.filter.OAuthFilter;
 import edu.hm.lipptobusch.shareit.models.Book;
 import edu.hm.lipptobusch.shareit.resource.MediaResource;
+import edu.hm.lipptobusch.shareit.resource.ShareitServletContextListener;
 import org.glassfish.jersey.internal.util.collection.MultivaluedStringMap;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -20,10 +20,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.*;
 
 import static org.junit.Assert.*;
@@ -38,7 +34,8 @@ import static org.mockito.Mockito.when;
 public class OAuthFilterTest {
 
     private MediaResource mediaResource = new MediaResource();
-    private OAuthFilter oAuthFilter = new OAuthFilter();
+    private AuthenticationFilter authFilter = new AuthenticationFilter();
+    private AuthenticationService authenticationService;
 
     private final Response EXPECTED_TOKEN_NOT_VALID = Response.status(MediaServiceResult.TOKEN_NOT_VALID.getStatusCode()).entity(MediaServiceResult.TOKEN_NOT_VALID).build();
     private final Response EXPECTED_VALID_TOKEN = Response.status(MediaServiceResult.OK.getStatusCode()).entity(MediaServiceResult.OK).build();
@@ -54,11 +51,20 @@ public class OAuthFilterTest {
     }
 
     /**
-     * MockObject for calling OAuthFilter.
+     * Reset the database if books and discs before every test.
+     */
+    @Before
+    public void createMockObject(){
+        //authenticationService = mock(AuthenticationService.class);
+        authenticationService = ShareitServletContextListener.getInjectorInstance().getInstance(AuthenticationService.class);
+    }
+
+    /**
+     * MockObject for calling AuthenticationFilter.
      *
      * @param uri Uri to the requested source
      * @param queryParameters needs the token with the key "token"
-     * @return ContainerRequestContext-Objekt for calling filter-Method in OAuthFilter-Class
+     * @return ContainerRequestContext-Objekt for calling filter-Method in AuthenticationFilter-Class
      * @throws URISyntaxException exception if the uri cannot be build
      */
     private ContainerRequestContext mockContainerRequest(String uri, MultivaluedMap<String, String> queryParameters) throws URISyntaxException {
@@ -70,49 +76,6 @@ public class OAuthFilterTest {
         when(requestContext.getUriInfo()).thenReturn(uriInfo);
 
         return requestContext;
-    }
-
-    /**
-     * Call OAuth-Server and generate token.
-     *
-     * @param user JSONObject with already registered user at the OAuth-Server
-     * @return valid token for this user and his scope
-     */
-    private String generateToken(JSONObject user) {
-        String urlLocal = "http://localhost:8333/shareit/users/login/";
-        String urlHeroku = "https://jularo.herokuapp.com/shareit/users/login/";
-
-        String result = "";
-
-
-        try {
-            URL url = new URL(urlLocal);
-            URLConnection con = url.openConnection();
-            HttpURLConnection http = (HttpURLConnection)con;
-            http.setRequestMethod("POST");
-            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            http.setDoOutput(true);
-            http.setDoInput(true);
-
-            OutputStream os = http.getOutputStream();
-            os.write(user.toString().getBytes("UTF-8"));
-            os.close();
-
-
-            if (200 == http.getResponseCode()) {
-                BufferedReader br = new BufferedReader(new InputStreamReader((http.getInputStream())));
-                String currentLine = "";
-                while ((currentLine = br.readLine()) != null) {
-                    result += currentLine;
-                }
-            }
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
     }
 
     @Test
@@ -127,7 +90,7 @@ public class OAuthFilterTest {
         //act
         try {
             ContainerRequestContext requestContext = mockContainerRequest("shareit/media/books", queryparams);
-            oAuthFilter.filter(requestContext);
+            authFilter.filter(requestContext);
         } catch (URISyntaxException e) {
             //never happens
         } catch (WebApplicationException exForNotValidToken) {
@@ -144,9 +107,14 @@ public class OAuthFilterTest {
 
     @Test
     public void testAddBookWithValidToken() {
+        //for mocking
+        //when(authenticationService.createToken(USER_WITHOUT_ADMIN_RIGHTS)).thenReturn(new JSONObject("{\"token\":\"EXAMPLE\"}"));
+        //TODO change bindings of authenticationService in authFilter (different modules)
+
         //arrange
         Book bookToAdd = new Book("title", "autor", "9783866801929");
-        String token = new JSONObject(generateToken(USER_WITHOUT_ADMIN_RIGHTS)).get("token").toString();
+        String token = authenticationService.createToken(USER_WITHOUT_ADMIN_RIGHTS).get("token").toString();
+
         MultivaluedMap<String,String> queryparams = new MultivaluedStringMap() {{
             add("token",token);
         }};
@@ -155,7 +123,7 @@ public class OAuthFilterTest {
         //act
         try {
             ContainerRequestContext requestContext = mockContainerRequest("shareit/media/books", queryparams);
-            oAuthFilter.filter(requestContext);
+            authFilter.filter(requestContext);
         } catch (URISyntaxException e) {
             //never happens
         } catch (WebApplicationException exForNotValidToken) {

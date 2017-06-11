@@ -12,6 +12,8 @@ import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaService;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceImpl;
+import edu.hm.lipptobusch.shareit.filter.AuthenticationService;
+import edu.hm.lipptobusch.shareit.filter.OAuthServiceCaller;
 
 /**
  * Context Listener to enable usage of google guice together with jersey.
@@ -26,6 +28,7 @@ public class ShareitServletContextListener extends GuiceServletContextListener {
         @Override
         protected void configureServlets() {
             bind(MediaService.class).to(MediaServiceImpl.class);
+            bind(AuthenticationService.class).to(OAuthServiceCaller.class);
         }
     });
 
@@ -39,7 +42,7 @@ public class ShareitServletContextListener extends GuiceServletContextListener {
     * Application class.
     * @return Injector instance.
     */
-    static Injector getInjectorInstance() {
+    public static Injector getInjectorInstance() {
         return injector;
     }
 }
