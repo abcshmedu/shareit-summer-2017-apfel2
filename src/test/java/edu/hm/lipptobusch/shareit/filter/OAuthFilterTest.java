@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
  */
 public class OAuthFilterTest {
 
-    private MediaResource mediaResource = new MediaResource();
+    //private MediaResource mediaResource = new MediaResource();
     private AuthenticationFilter authFilter = new AuthenticationFilter();
     private AuthenticationService authenticationService;
 
@@ -45,10 +45,10 @@ public class OAuthFilterTest {
     /**
      * Reset the database if books and discs before every test.
      */
-    @Before
-    public void resetDataBase(){
-        mediaResource.resetDataBase();
-    }
+    //@Before
+    //public void resetDataBase(){
+    //    mediaResource.resetDataBase();
+    //}
 
     /**
      * Reset the database if books and discs before every test.

@@ -29,6 +29,7 @@ public class ShareitServletContextListener extends GuiceServletContextListener {
         protected void configureServlets() {
             bind(MediaService.class).to(MediaServiceImpl.class);
             bind(AuthenticationService.class).to(OAuthServiceCaller.class);
+            //bind(MediaPersistence.class).to(MediaPersistenceImpl.class);
         }
     });
 

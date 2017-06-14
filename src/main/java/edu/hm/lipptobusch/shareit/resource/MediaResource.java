@@ -10,6 +10,7 @@ package edu.hm.lipptobusch.shareit.resource;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.name.Named;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaService;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceImpl;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceResult;
@@ -38,9 +39,9 @@ public class MediaResource {
     //Dependency Injection without annotations
     private static MediaService mediaService = ShareitServletContextListener.getInjectorInstance().getInstance(MediaService.class);
 
-    /*
+
     //Better way of Dependency Injection with Annotations, but not working yet
-    private MediaService mediaService;
+    /*private MediaService mediaService;
 
     @Inject
     public MediaResource(MediaService mediaService) {
