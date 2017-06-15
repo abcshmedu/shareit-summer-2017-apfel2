@@ -1,0 +1,40 @@
+/**
+ * Organisation: Hochschule Muenchen, Fakultaet 07 Informatik und Mathematik
+ * Purpose: lab software-architecture, IF4B, SS2017
+ * Purpose: solution of assignment 2
+ */
+package edu.hm.lipptobusch.shareit.persistence;
+
+import edu.hm.lipptobusch.shareit.models.Book;
+import edu.hm.lipptobusch.shareit.models.Medium;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+/**
+ * @author Maximilian Lipp, lipp@hm.edu
+ * @author Florian Tobusch, tobusch@hm.edu
+ * @version 2017-04-19
+ */
+public class HibernatePersistence {
+    private SessionFactory sessionFactory;
+
+    public HibernatePersistence() {
+        this.sessionFactory = new Configuration().configure().buildSessionFactory();;
+    }
+
+    public void addMedium(Medium medium) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        //... some something
+        session.save((Book) medium);
+
+
+        tx.commit();
+        session.close();
+    }
+
+
+}

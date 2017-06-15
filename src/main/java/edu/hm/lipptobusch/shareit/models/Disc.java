@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu
@@ -18,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table
-public class Disc extends Medium {
+public class Disc extends Medium implements Serializable {
 
     @Id
     private final String barcode;

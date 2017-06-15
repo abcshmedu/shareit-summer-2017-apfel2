@@ -10,15 +10,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu
  * @author Florian Tobusch, tobusch@hm.edu
  * @version 2017-04-19
  */
-@Entity
 @MappedSuperclass
-public abstract class Medium {
+public abstract class Medium implements Serializable {
     @Id
     private final String title;
 

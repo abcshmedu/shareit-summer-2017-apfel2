@@ -9,6 +9,7 @@ package edu.hm.lipptobusch.shareit.businessLayer;
 import edu.hm.lipptobusch.shareit.models.Book;
 import edu.hm.lipptobusch.shareit.models.Disc;
 import edu.hm.lipptobusch.shareit.models.Medium;
+import edu.hm.lipptobusch.shareit.persistence.HibernatePersistence;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,10 +22,12 @@ import java.util.stream.Collectors;
 public class MediaServiceImpl implements MediaService{
     private final Map<String, Book> books;
     private final Map<String, Disc> discs;
+    private final HibernatePersistence hibernatePersistence;
 
     public MediaServiceImpl() {
         this.books = new HashMap<>();
         this.discs = new HashMap<>();
+        hibernatePersistence = new HibernatePersistence();
     }
 
     @Override
@@ -48,6 +51,7 @@ public class MediaServiceImpl implements MediaService{
         }
 
         books.put(book.getIsbn(), book);
+        hibernatePersistence.addMedium(book);
 
         return MediaServiceResult.OK;
     }
