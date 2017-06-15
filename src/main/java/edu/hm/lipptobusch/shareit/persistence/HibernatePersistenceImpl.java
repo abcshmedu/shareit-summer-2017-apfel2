@@ -10,7 +10,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,10 +24,10 @@ import java.util.List;
  * @version 2017-04-19
  */
 public class HibernatePersistenceImpl implements HibernatePersistence {
-    private SessionFactory sessionFactory;
+    private static final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
     public HibernatePersistenceImpl() {
-        this.sessionFactory = new Configuration().configure().buildSessionFactory();;
+
     }
 
     @Override
@@ -57,12 +61,18 @@ public class HibernatePersistenceImpl implements HibernatePersistence {
 
         //... some something
 
-        session.createQuery("FROM " + className.getSimpleName() + " ");
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Medium> query = builder.createQuery(className);
+        query.from(className);
+        List<Medium> resultList = session.createQuery(query).getResultList();
+
+
+        //session.createQuery("FROM " + className.getSimpleName() + " ");
 
         tx.commit();
         session.close();
 
-        return null;
+        return resultList;
     }
 
     @Override

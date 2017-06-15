@@ -55,7 +55,7 @@ public class MediaServiceImpl implements MediaService{
         books.put(book.getIsbn(), book);
         hibernatePersistence.addMedium(book);
         //hibernatePersistence.updateMedium(book);
-        hibernatePersistence.updateMedium(new Book("myTitle","bla","9783866801929"));
+        //hibernatePersistence.updateMedium(new Book("myTitle","bla","9783866801929"));
         return MediaServiceResult.OK;
     }
 
@@ -87,10 +87,10 @@ public class MediaServiceImpl implements MediaService{
     @Override
     public Medium[] getBooks() {
 
-        hibernatePersistence.getTable(Book.class);
+        List<Medium> table = hibernatePersistence.getTable(Book.class);
 
 
-
+        /**
         Medium[] result = new Medium[books.size()];
 
         Iterator<Book> mediumIterator = books.values().iterator();
@@ -98,8 +98,9 @@ public class MediaServiceImpl implements MediaService{
         for (int i = 0; mediumIterator.hasNext(); i++) {
             result[i] = mediumIterator.next();
         }
+         **/
 
-        return result;
+        return table.toArray(new Medium[table.size()]);
     }
 
     @Override
@@ -116,6 +117,7 @@ public class MediaServiceImpl implements MediaService{
 
     @Override
     public Medium getBook(String isbn) {
+
         Medium result = books.get(deleteDashesInIsbn(isbn));
 
         return result;
