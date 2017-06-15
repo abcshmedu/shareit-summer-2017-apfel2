@@ -14,6 +14,7 @@ import edu.hm.lipptobusch.shareit.persistence.HibernatePersistenceImpl;
 
 import javax.inject.Inject;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu
@@ -118,13 +119,15 @@ public class MediaServiceImpl implements MediaService{
     @Override
     public Medium getBook(String isbn) {
 
-        Medium result = books.get(deleteDashesInIsbn(isbn));
+        Optional<Medium> result = hibernatePersistence.getTable(Book.class).stream().filter(x -> ((Book)x).getIsbn() == deleteDashesInIsbn(isbn)).findFirst();
 
-        return result;
+        if(result.isPresent()) return result.get();
+        return null;
     }
 
     @Override
     public Medium getDisc(String barcode) {
+
         Medium result = discs.get(barcode);
 
         return result;
