@@ -14,6 +14,7 @@ import edu.hm.lipptobusch.shareit.persistence.HibernatePersistenceImpl;
 
 import javax.inject.Inject;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu
@@ -87,19 +88,20 @@ public class MediaServiceImpl implements MediaService{
     @Override
     public Medium[] getBooks() {
 
-        /*Medium[] result = new Medium[books.size()];
+        List<Medium> table = hibernatePersistence.getTable(Book.class);
+
+
+        /**
+        Medium[] result = new Medium[books.size()];
 
         Iterator<Book> mediumIterator = books.values().iterator();
 
         for (int i = 0; mediumIterator.hasNext(); i++) {
             result[i] = mediumIterator.next();
-        }*/
+        }
+         **/
 
-
-        //hibernatePersistence.addMedium(new Book("myTitle","bla","9783866801929"));
-        List<Medium> listOfBooks = hibernatePersistence.getTable(Book.class);
-
-        return listOfBooks.toArray(new Medium[listOfBooks.size()]);
+        return table.toArray(new Medium[table.size()]);
     }
 
     @Override
@@ -116,13 +118,16 @@ public class MediaServiceImpl implements MediaService{
 
     @Override
     public Medium getBook(String isbn) {
-        Medium result = books.get(deleteDashesInIsbn(isbn));
 
-        return result;
+        Optional<Medium> result = hibernatePersistence.getTable(Book.class).stream().filter(x -> ((Book)x).getIsbn() == deleteDashesInIsbn(isbn)).findFirst();
+
+        if(result.isPresent()) return result.get();
+        return null;
     }
 
     @Override
     public Medium getDisc(String barcode) {
+
         Medium result = discs.get(barcode);
 
         return result;

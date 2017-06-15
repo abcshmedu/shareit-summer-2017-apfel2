@@ -5,13 +5,12 @@
  */
 package edu.hm.lipptobusch.shareit.persistence;
 
-import edu.hm.lipptobusch.shareit.models.Book;
 import edu.hm.lipptobusch.shareit.models.Medium;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
+import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -26,6 +25,10 @@ import java.util.List;
  */
 public class HibernatePersistenceImpl implements HibernatePersistence {
     private static final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+
+    public HibernatePersistenceImpl() {
+
+    }
 
     @Override
     public void addMedium(Medium medium) {
@@ -58,21 +61,32 @@ public class HibernatePersistenceImpl implements HibernatePersistence {
 
         //... some something
 
-        session.createQuery("FROM " + className.getSimpleName());
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Medium> query = builder.createQuery(className);
+        query.from(className);
+        List<Medium> resultList = session.createQuery(query).getResultList();
 
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Medium> criteriaQuery = criteriaBuilder.createQuery(className);
 
-        Root<Medium> root = criteriaQuery.from(className);
-        criteriaQuery.select(root);
-
-        Query<Medium> query = session.createQuery(criteriaQuery);
-        List<Medium> tableAsList = query.getResultList();
+        //session.createQuery("FROM " + className.getSimpleName() + " ");
 
         tx.commit();
         session.close();
 
-        return tableAsList;
+        return resultList;
+    }
+
+    @Override
+    public Medium findMedium(Class className, Serializable id) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        //... some something
+
+
+        tx.commit();
+        session.close();
+
+        return null;
     }
 
 
