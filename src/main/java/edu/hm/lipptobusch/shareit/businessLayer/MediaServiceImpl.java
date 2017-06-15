@@ -24,6 +24,7 @@ public class MediaServiceImpl implements MediaService{
     private final Map<String, Disc> discs;
     private final HibernatePersistence hibernatePersistence;
 
+    //@Inject
     public MediaServiceImpl() {
         this.books = new HashMap<>();
         this.discs = new HashMap<>();
