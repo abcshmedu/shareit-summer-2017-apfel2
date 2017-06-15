@@ -19,7 +19,7 @@ import java.io.Serializable;
  */
 @MappedSuperclass
 public abstract class Medium implements Serializable {
-    @Id
+
     private final String title;
 
     public Medium() {

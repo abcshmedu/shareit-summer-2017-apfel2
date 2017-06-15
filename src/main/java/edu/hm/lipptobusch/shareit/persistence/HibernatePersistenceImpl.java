@@ -31,9 +31,7 @@ public class HibernatePersistenceImpl implements HibernatePersistence {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        //... some something
         session.save(medium);
-
 
         tx.commit();
         session.close();
@@ -45,7 +43,8 @@ public class HibernatePersistenceImpl implements HibernatePersistence {
         Transaction tx = session.beginTransaction();
 
         //... some something
-
+        //session.merge(medium);
+        session.update(medium);
 
         tx.commit();
         session.close();
@@ -58,6 +57,7 @@ public class HibernatePersistenceImpl implements HibernatePersistence {
 
         //... some something
 
+        session.createQuery("FROM " + className.getSimpleName() + " ");
 
         tx.commit();
         session.close();

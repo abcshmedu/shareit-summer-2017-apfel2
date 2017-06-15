@@ -54,7 +54,8 @@ public class MediaServiceImpl implements MediaService{
 
         books.put(book.getIsbn(), book);
         hibernatePersistence.addMedium(book);
-
+        //hibernatePersistence.updateMedium(book);
+        hibernatePersistence.updateMedium(new Book("myTitle","bla","9783866801929"));
         return MediaServiceResult.OK;
     }
 
@@ -78,13 +79,18 @@ public class MediaServiceImpl implements MediaService{
         }
 
         discs.put(disc.getBarcode(), disc);
-
+        hibernatePersistence.addMedium(disc);
 
         return MediaServiceResult.OK;
     }
 
     @Override
     public Medium[] getBooks() {
+
+        hibernatePersistence.getTable(Book.class);
+
+
+
         Medium[] result = new Medium[books.size()];
 
         Iterator<Book> mediumIterator = books.values().iterator();
