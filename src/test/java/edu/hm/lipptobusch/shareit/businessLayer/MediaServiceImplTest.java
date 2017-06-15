@@ -1,4 +1,4 @@
-package edu.hm.lipptobusch.shareit.businessLayer;
+/*package edu.hm.lipptobusch.shareit.businessLayer;
 
 import edu.hm.lipptobusch.shareit.models.Book;
 import edu.hm.lipptobusch.shareit.models.Disc;
@@ -8,13 +8,13 @@ import org.junit.Test;
 
 
 import static org.junit.Assert.*;
-
+*/
 /**
  * @author Maximilian Lipp, lipp@hm.edu
  * @author Florian Tobusch, tobusch@hm.edu
  * @version 2017-04-19
  */
-public class MediaServiceImplTest {
+/*public class MediaServiceImplTest {
     private MediaServiceImpl mediaService;
 
     @Before
@@ -550,4 +550,4 @@ public class MediaServiceImplTest {
         assertEquals(expected.getMessage(), actual.getMessage());
         assertEquals(expected.getStatusCode(), actual.getStatusCode());
     }
-}
+}*/

@@ -5,12 +5,17 @@
  */
 package edu.hm.lipptobusch.shareit.persistence;
 
+import edu.hm.lipptobusch.shareit.models.Book;
 import edu.hm.lipptobusch.shareit.models.Medium;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,11 +25,7 @@ import java.util.List;
  * @version 2017-04-19
  */
 public class HibernatePersistenceImpl implements HibernatePersistence {
-    private SessionFactory sessionFactory;
-
-    public HibernatePersistenceImpl() {
-        this.sessionFactory = new Configuration().configure().buildSessionFactory();;
-    }
+    private static final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
     @Override
     public void addMedium(Medium medium) {
@@ -57,26 +58,21 @@ public class HibernatePersistenceImpl implements HibernatePersistence {
 
         //... some something
 
-        session.createQuery("FROM " + className.getSimpleName() + " ");
+        session.createQuery("FROM " + className.getSimpleName());
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Medium> criteriaQuery = criteriaBuilder.createQuery(className);
+
+        Root<Medium> root = criteriaQuery.from(className);
+        criteriaQuery.select(root);
+
+        Query<Medium> query = session.createQuery(criteriaQuery);
+        List<Medium> tableAsList = query.getResultList();
 
         tx.commit();
         session.close();
 
-        return null;
-    }
-
-    @Override
-    public Medium findMedium(Class className, Serializable id) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-
-        //... some something
-
-
-        tx.commit();
-        session.close();
-
-        return null;
+        return tableAsList;
     }
 
 

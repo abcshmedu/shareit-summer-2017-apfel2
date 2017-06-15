@@ -55,7 +55,7 @@ public class MediaServiceImpl implements MediaService{
         books.put(book.getIsbn(), book);
         hibernatePersistence.addMedium(book);
         //hibernatePersistence.updateMedium(book);
-        hibernatePersistence.updateMedium(new Book("myTitle","bla","9783866801929"));
+        //hibernatePersistence.updateMedium(new Book("myTitle","bla","9783866801929"));
         return MediaServiceResult.OK;
     }
 
@@ -87,19 +87,19 @@ public class MediaServiceImpl implements MediaService{
     @Override
     public Medium[] getBooks() {
 
-        hibernatePersistence.getTable(Book.class);
-
-
-
-        Medium[] result = new Medium[books.size()];
+        /*Medium[] result = new Medium[books.size()];
 
         Iterator<Book> mediumIterator = books.values().iterator();
 
         for (int i = 0; mediumIterator.hasNext(); i++) {
             result[i] = mediumIterator.next();
-        }
+        }*/
 
-        return result;
+
+        //hibernatePersistence.addMedium(new Book("myTitle","bla","9783866801929"));
+        List<Medium> listOfBooks = hibernatePersistence.getTable(Book.class);
+
+        return listOfBooks.toArray(new Medium[listOfBooks.size()]);
     }
 
     @Override

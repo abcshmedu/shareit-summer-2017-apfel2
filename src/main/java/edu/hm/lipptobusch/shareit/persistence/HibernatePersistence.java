@@ -23,7 +23,4 @@ public interface HibernatePersistence {
     void updateMedium(Medium medium);
 
     List<Medium> getTable(Class className);
-
-    Medium findMedium(Class className, Serializable id);
-
 }
