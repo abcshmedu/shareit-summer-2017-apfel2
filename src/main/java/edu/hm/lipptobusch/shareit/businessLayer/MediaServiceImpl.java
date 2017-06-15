@@ -22,14 +22,14 @@ import java.util.stream.Stream;
  * @version 2017-04-19
  */
 public class MediaServiceImpl implements MediaService{
-    private final Map<String, Book> books;
-    private final Map<String, Disc> discs;
+    //private final Map<String, Book> books;
+    //private final Map<String, Disc> discs;
     private final HibernatePersistence hibernatePersistence;
 
     @Inject
     public MediaServiceImpl(HibernatePersistence hibernatePersistence) {
-        this.books = new HashMap<>();
-        this.discs = new HashMap<>();
+        //this.books = new HashMap<>();
+        //this.discs = new HashMap<>();
         this.hibernatePersistence = hibernatePersistence;
     }
 
@@ -37,7 +37,7 @@ public class MediaServiceImpl implements MediaService{
     public MediaServiceResult addBook(Book book) {
         book = new Book(book.getTitle(),book.getAuthor(),deleteDashesInIsbn(book.getIsbn()));
 
-        if (books.containsKey(book.getIsbn())) {
+        if (getBook(book.getIsbn()) != null) {
             //Error duplicate ISBN
             //return MediaServiceResult
             return MediaServiceResult.DUPLICATE_ISBN;
@@ -53,7 +53,7 @@ public class MediaServiceImpl implements MediaService{
             return MediaServiceResult.INCOMPLETE_ARGUMENTS;
         }
 
-        books.put(book.getIsbn(), book);
+        //books.put(book.getIsbn(), book);
         hibernatePersistence.addMedium(book);
         //hibernatePersistence.updateMedium(book);
         //hibernatePersistence.updateMedium(new Book("myTitle","bla","9783866801929"));
@@ -63,7 +63,7 @@ public class MediaServiceImpl implements MediaService{
     @Override
     public MediaServiceResult addDisc(Disc disc) {
 
-        if (discs.containsKey(disc.getBarcode())) {
+        if (getDisc(disc.getBarcode()) != null) {
             //Error duplicate ISBN
             //return MediaServiceResult
             return MediaServiceResult.DUPLICATE_Barcode;
@@ -79,7 +79,7 @@ public class MediaServiceImpl implements MediaService{
             return MediaServiceResult.INCOMPLETE_ARGUMENTS;
         }
 
-        discs.put(disc.getBarcode(), disc);
+        //discs.put(disc.getBarcode(), disc);
         hibernatePersistence.addMedium(disc);
 
         return MediaServiceResult.OK;
@@ -90,47 +90,30 @@ public class MediaServiceImpl implements MediaService{
 
         List<Medium> table = hibernatePersistence.getTable(Book.class);
 
-
-        /**
-        Medium[] result = new Medium[books.size()];
-
-        Iterator<Book> mediumIterator = books.values().iterator();
-
-        for (int i = 0; mediumIterator.hasNext(); i++) {
-            result[i] = mediumIterator.next();
-        }
-         **/
-
         return table.toArray(new Medium[table.size()]);
     }
 
     @Override
     public Medium[] getDiscs() {
-        Medium[] result = new Medium[discs.size()];
-        Iterator<Disc> mediumIterator = discs.values().iterator();
+        List<Medium> table = hibernatePersistence.getTable(Disc.class);
 
-        for (int i = 0; mediumIterator.hasNext(); i++) {
-            result[i] = mediumIterator.next();
-        }
-
-        return result;
+        return table.toArray(new Medium[table.size()]);
     }
 
     @Override
     public Medium getBook(String isbn) {
 
-        Optional<Medium> result = hibernatePersistence.getTable(Book.class).stream().filter(x -> ((Book)x).getIsbn() == deleteDashesInIsbn(isbn)).findFirst();
+        Optional<Medium> result = hibernatePersistence.getTable(Book.class).stream().filter(medium -> ((Book)medium).getIsbn().equals(deleteDashesInIsbn(isbn))).findFirst();
 
-        if(result.isPresent()) return result.get();
-        return null;
+        return result.orElse(null);
     }
 
     @Override
     public Medium getDisc(String barcode) {
 
-        Medium result = discs.get(barcode);
+        Optional<Medium> result = hibernatePersistence.getTable(Disc.class).stream().filter(medium -> ((Disc)medium).getBarcode().equals(barcode)).findFirst();
 
-        return result;
+        return result.orElse(null);
     }
 
     @Override
@@ -143,7 +126,7 @@ public class MediaServiceImpl implements MediaService{
             return MediaServiceResult.MODIFYING_ISBN_NOT_ALLOWED;
         }
 
-        if (!books.containsKey(book.getIsbn())) {
+        if (getBook(book.getIsbn()) == null) {
             //ISBN not found
             return MediaServiceResult.ISBN_NOT_FOUND;
         }
@@ -155,16 +138,16 @@ public class MediaServiceImpl implements MediaService{
 
         MediaServiceResult result;
 
-        Book oldBook = books.get(book.getIsbn());
-        books.remove(oldBook);
+        Book oldBook = (Book) getBook(book.getIsbn());
+        //books.remove(oldBook);
 
         String newTitle = book.getTitle().isEmpty()?oldBook.getTitle():book.getTitle();
         String newAuthor = book.getAuthor().isEmpty()?oldBook.getAuthor():book.getAuthor();
 
         Book newBook = new Book(newTitle,newAuthor,oldBook.getIsbn());
 
-        books.put(newBook.getIsbn(), newBook);
-
+        //books.put(newBook.getIsbn(), newBook);
+        hibernatePersistence.updateMedium(newBook);
 
         return MediaServiceResult.OK;
     }
@@ -176,7 +159,7 @@ public class MediaServiceImpl implements MediaService{
             return MediaServiceResult.MODIFYING_BARCODE_NOT_ALLOWED;
         }
 
-        if (!discs.containsKey(disc.getBarcode())) {
+        if (getDisc(disc.getBarcode()) == null) {
             //Barcode not found
             return MediaServiceResult.BARCODE_NOT_FOUND;
         }
@@ -188,16 +171,17 @@ public class MediaServiceImpl implements MediaService{
 
         MediaServiceResult result;
 
-        Disc oldDisc = discs.get(disc.getBarcode());
-        discs.remove(oldDisc);
+        Disc oldDisc = (Disc) getDisc(disc.getBarcode());
+        //discs.remove(oldDisc);
 
         String newTitle = disc.getTitle().isEmpty()?oldDisc.getTitle():disc.getTitle();
         String newDirector = disc.getDirector().isEmpty()?oldDisc.getDirector():disc.getDirector();
-        int newfsk = disc.getFsk() == -1?oldDisc.getFsk():disc.getFsk();
+        int newFsk = disc.getFsk() == -1?oldDisc.getFsk():disc.getFsk();
 
-        Disc newDisc = new Disc(newTitle,oldDisc.getBarcode(),newDirector,newfsk);
+        Disc newDisc = new Disc(newTitle,oldDisc.getBarcode(),newDirector,newFsk);
 
-        discs.put(newDisc.getBarcode(), newDisc);
+        //discs.put(newDisc.getBarcode(), newDisc);
+        hibernatePersistence.updateMedium(newDisc);
 
 
         return MediaServiceResult.OK;
@@ -256,16 +240,13 @@ public class MediaServiceImpl implements MediaService{
     }
 
     /**
-     * blub
-     */
-
-    /**
      * resetting the Maps for testing.
      */
     @Override
     public void clearMap() {
-        books.clear();
-        discs.clear();
+        //books.clear();
+        //discs.clear();
+        throw new UnsupportedOperationException("This method is no longer supported");
     }
 
     private String deleteDashesInIsbn(String isbn) {

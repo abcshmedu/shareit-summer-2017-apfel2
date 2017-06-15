@@ -26,10 +26,6 @@ import java.util.List;
 public class HibernatePersistenceImpl implements HibernatePersistence {
     private static final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
-    public HibernatePersistenceImpl() {
-
-    }
-
     @Override
     public void addMedium(Medium medium) {
         Session session = sessionFactory.openSession();
@@ -46,7 +42,6 @@ public class HibernatePersistenceImpl implements HibernatePersistence {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        //... some something
         //session.merge(medium);
         session.update(medium);
 
@@ -59,13 +54,10 @@ public class HibernatePersistenceImpl implements HibernatePersistence {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        //... some something
-
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Medium> query = builder.createQuery(className);
         query.from(className);
         List<Medium> resultList = session.createQuery(query).getResultList();
-
 
         //session.createQuery("FROM " + className.getSimpleName() + " ");
 
@@ -74,20 +66,5 @@ public class HibernatePersistenceImpl implements HibernatePersistence {
 
         return resultList;
     }
-
-    @Override
-    public Medium findMedium(Class className, Serializable id) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-
-        //... some something
-
-
-        tx.commit();
-        session.close();
-
-        return null;
-    }
-
 
 }

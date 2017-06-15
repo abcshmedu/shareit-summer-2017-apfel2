@@ -3,11 +3,15 @@
 import edu.hm.lipptobusch.shareit.models.Book;
 import edu.hm.lipptobusch.shareit.models.Disc;
 import edu.hm.lipptobusch.shareit.models.Medium;
+import edu.hm.lipptobusch.shareit.persistence.HibernatePersistence;
+import edu.hm.lipptobusch.shareit.persistence.HibernatePersistenceImpl;
 import org.junit.Before;
 import org.junit.Test;
 
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 */
 /**
  * @author Maximilian Lipp, lipp@hm.edu
@@ -19,7 +23,11 @@ import static org.junit.Assert.*;
 
     @Before
     public void initialize(){
-        this.mediaService = new MediaServiceImpl();
+        HibernatePersistence hibernatePersistenceMock = mock(HibernatePersistence.class);
+        mediaService = new MediaServiceImpl(hibernatePersistenceMock);
+
+        //mock for HibernatePersistence
+        when(hibernatePersistenceMock.addMedium(Book.class)).thenReturn()
     }
 
     //----------------------------------------------
