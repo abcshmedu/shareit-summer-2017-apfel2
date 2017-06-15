@@ -5,20 +5,31 @@
  */
 package edu.hm.lipptobusch.shareit.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+
 /**
  * @author Maximilian Lipp, lipp@hm.edu
  * @author Florian Tobusch, tobusch@hm.edu
  * @version 2017-04-19
  */
-public class Book extends Medium{
+@Entity
+@Table
+public class Book extends Medium implements Serializable{
 
+    @Column
     private final String author;
+
+    @Id
     private final String isbn;
 
     /**
      * private default constructor is needed for reflection (Jackson)
      */
-    private Book() {
+    public Book() {
         super(null);
         author = null;
         isbn = null;

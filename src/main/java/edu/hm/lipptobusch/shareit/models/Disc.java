@@ -6,20 +6,33 @@
 
 package edu.hm.lipptobusch.shareit.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * @author Maximilian Lipp, lipp@hm.edu
  * @author Florian Tobusch, tobusch@hm.edu
  * @version 2017-04-19
  */
+@Entity
+@Table
 public class Disc extends Medium {
+
+    @Id
     private final String barcode;
+
+    @Column
     private final String director;
+
+    @Column
     private final int fsk;
 
     /**
      * private default constructor is needed for reflection (Jackson)
      */
-    private Disc() {
+    public Disc() {
         super(null);
         barcode = null;
         director = null;

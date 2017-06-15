@@ -6,13 +6,25 @@
 
 package edu.hm.lipptobusch.shareit.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
 /**
  * @author Maximilian Lipp, lipp@hm.edu
  * @author Florian Tobusch, tobusch@hm.edu
  * @version 2017-04-19
  */
+@Entity
+@MappedSuperclass
 public abstract class Medium {
+    @Id
     private final String title;
+
+    public Medium() {
+        this.title = null;
+    }
 
     public Medium(String title) {
         this.title = title;
