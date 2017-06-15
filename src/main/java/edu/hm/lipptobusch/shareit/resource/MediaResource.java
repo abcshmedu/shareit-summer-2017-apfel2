@@ -9,7 +9,6 @@ package edu.hm.lipptobusch.shareit.resource;
 
 
 import edu.hm.lipptobusch.shareit.businessLayer.MediaService;
-import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceImpl;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceResult;
 import edu.hm.lipptobusch.shareit.models.Book;
 import edu.hm.lipptobusch.shareit.models.Disc;
@@ -19,12 +18,6 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu

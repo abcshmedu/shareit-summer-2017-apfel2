@@ -10,9 +10,10 @@ import edu.hm.lipptobusch.shareit.models.Book;
 import edu.hm.lipptobusch.shareit.models.Disc;
 import edu.hm.lipptobusch.shareit.models.Medium;
 import edu.hm.lipptobusch.shareit.persistence.HibernatePersistence;
+import edu.hm.lipptobusch.shareit.persistence.HibernatePersistenceImpl;
 
+import javax.inject.Inject;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu
@@ -24,10 +25,11 @@ public class MediaServiceImpl implements MediaService{
     private final Map<String, Disc> discs;
     private final HibernatePersistence hibernatePersistence;
 
-    public MediaServiceImpl() {
+    @Inject
+    public MediaServiceImpl(HibernatePersistence hibernatePersistence) {
         this.books = new HashMap<>();
         this.discs = new HashMap<>();
-        hibernatePersistence = new HibernatePersistence();
+        this.hibernatePersistence = hibernatePersistence;
     }
 
     @Override

@@ -14,6 +14,8 @@ import edu.hm.lipptobusch.shareit.businessLayer.MediaService;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceImpl;
 import edu.hm.lipptobusch.shareit.filter.AuthenticationService;
 import edu.hm.lipptobusch.shareit.filter.OAuthServiceCaller;
+import edu.hm.lipptobusch.shareit.persistence.HibernatePersistence;
+import edu.hm.lipptobusch.shareit.persistence.HibernatePersistenceImpl;
 
 /**
  * Context Listener to enable usage of google guice together with jersey.
@@ -29,6 +31,7 @@ public class ShareitServletContextListener extends GuiceServletContextListener {
         protected void configureServlets() {
             bind(MediaService.class).to(MediaServiceImpl.class);
             bind(AuthenticationService.class).to(OAuthServiceCaller.class);
+            bind(HibernatePersistence.class).to(HibernatePersistenceImpl.class);
             //bind(MediaPersistence.class).to(MediaPersistenceImpl.class);
         }
     });

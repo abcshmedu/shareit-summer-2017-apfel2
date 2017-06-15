@@ -3,38 +3,27 @@
  * Purpose: lab software-architecture, IF4B, SS2017
  * Purpose: solution of assignment 2
  */
+
 package edu.hm.lipptobusch.shareit.persistence;
 
-import edu.hm.lipptobusch.shareit.models.Book;
 import edu.hm.lipptobusch.shareit.models.Medium;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Maximilian Lipp, lipp@hm.edu
  * @author Florian Tobusch, tobusch@hm.edu
  * @version 2017-04-19
  */
-public class HibernatePersistence {
-    private SessionFactory sessionFactory;
+public interface HibernatePersistence {
 
-    public HibernatePersistence() {
-        this.sessionFactory = new Configuration().configure().buildSessionFactory();;
-    }
+    void addMedium(Medium medium);
 
-    public void addMedium(Medium medium) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
+    void updateMedium(Medium medium);
 
-        //... some something
-        session.save((Book) medium);
+    List<Medium> getTable(Class className);
 
-
-        tx.commit();
-        session.close();
-    }
-
+    Medium findMedium(Class className, Serializable id);
 
 }
