@@ -52,7 +52,7 @@ public class OAuthFilterTest {
      *
      * @param uri Uri to the requested source
      * @param queryParameters needs the token with the key "token"
-     * @return ContainerRequestContext-Objekt for calling filter-Method in AuthenticationFilter-Class
+     * @return ContainerRequestContext-Object for calling filter-Method in AuthenticationFilter-Class
      * @throws URISyntaxException exception if the uri cannot be build
      */
     private ContainerRequestContext mockContainerRequest(String uri, MultivaluedMap<String, String> queryParameters) throws URISyntaxException {
@@ -66,6 +66,11 @@ public class OAuthFilterTest {
         return requestContext;
     }
 
+    /**
+     * Mock-object for the OAuth-Server.
+     *
+     * @return AuthenticationService-Object for creating and validating tokens
+     */
     private AuthenticationService mockAuthenticationService() {
         AuthenticationService mockAuthenticationService = mock(AuthenticationService.class);
         String validTestToken = "Hannah:1234567890";
