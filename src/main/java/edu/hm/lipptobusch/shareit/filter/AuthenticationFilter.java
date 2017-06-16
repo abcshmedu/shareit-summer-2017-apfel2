@@ -8,6 +8,7 @@ package edu.hm.lipptobusch.shareit.filter;
 import edu.hm.lipptobusch.shareit.businessLayer.MediaServiceResult;
 import edu.hm.lipptobusch.shareit.resource.ShareitServletContextListener;
 
+import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -26,14 +27,19 @@ import javax.ws.rs.ext.Provider;
  */
 @Provider
 public class AuthenticationFilter implements ContainerRequestFilter {
+    private final AuthenticationService authenticationService;
+
+    @Inject
+    public AuthenticationFilter(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
+
     @Override
     public void filter(ContainerRequestContext requestContext) throws WebApplicationException {
 
         MultivaluedMap<String, String> queryParams = requestContext.getUriInfo().getQueryParameters();
 
         String token = queryParams.getFirst("token");
-
-        AuthenticationService authenticationService = ShareitServletContextListener.getInjectorInstance().getInstance(AuthenticationService.class);
 
         if (authenticationService.checkToken(token).toString().equals("{}")) {
             //deliver custom response with error-code and message

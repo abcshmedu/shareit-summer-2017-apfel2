@@ -1,33 +1,82 @@
-/*package edu.hm.lipptobusch.shareit.businessLayer;
+package edu.hm.lipptobusch.shareit.businessLayer;
 
 import edu.hm.lipptobusch.shareit.models.Book;
 import edu.hm.lipptobusch.shareit.models.Disc;
 import edu.hm.lipptobusch.shareit.models.Medium;
 import edu.hm.lipptobusch.shareit.persistence.HibernatePersistence;
-import edu.hm.lipptobusch.shareit.persistence.HibernatePersistenceImpl;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
+
+import java.util.*;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-*/
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 /**
  * @author Maximilian Lipp, lipp@hm.edu
  * @author Florian Tobusch, tobusch@hm.edu
  * @version 2017-04-19
  */
-/*public class MediaServiceImplTest {
+public class MediaServiceImplTest {
     private MediaServiceImpl mediaService;
+    private HibernatePersistence hibernatePersistenceMock;
+    private static final HashMap<String, Book> books = new HashMap<>();
+    private static final HashMap<String, Disc> discs = new HashMap<>();
 
     @Before
     public void initialize(){
-        HibernatePersistence hibernatePersistenceMock = mock(HibernatePersistence.class);
+        books.clear();
+        discs.clear();
+
+        hibernatePersistenceMock = mock(HibernatePersistence.class);
         mediaService = new MediaServiceImpl(hibernatePersistenceMock);
 
-        //mock for HibernatePersistence
-        when(hibernatePersistenceMock.addMedium(Book.class)).thenReturn()
+        //some mocks for methods of the HibernatePersistence-Class
+        doAnswer(
+                new Answer<Void>() {
+                    public Void answer(InvocationOnMock invocation) {
+                        Book book = (Book) invocation.getArgument(0);
+                        books.put(book.getIsbn(),book);
+                        return null;
+                    }
+                }
+        ).when(hibernatePersistenceMock).addMedium(any(Book.class));
+
+        doAnswer(
+                new Answer<Void>() {
+                    public Void answer(InvocationOnMock invocation) {
+                        Book book = (Book) invocation.getArgument(0);
+                        books.remove(book.getIsbn());
+                        books.put(book.getIsbn(),book);
+                        return null;
+                    }
+                }
+        ).when(hibernatePersistenceMock).updateMedium(any(Book.class));
+
+        doAnswer(
+                new Answer<Void>() {
+                    public Void answer(InvocationOnMock invocation) {
+                        Disc disc = (Disc) invocation.getArgument(0);
+                        discs.put(disc.getBarcode(),disc);
+                        return null;
+                    }
+                }
+        ).when(hibernatePersistenceMock).addMedium(any(Disc.class));
+
+        doAnswer(
+                new Answer<Void>() {
+                    public Void answer(InvocationOnMock invocation) {
+                        Disc disc = (Disc) invocation.getArgument(0);
+                        discs.remove(disc.getBarcode());
+                        discs.put(disc.getBarcode(),disc);
+                        return null;
+                    }
+                }
+        ).when(hibernatePersistenceMock).updateMedium(any(Disc.class));
     }
 
     //----------------------------------------------
@@ -41,6 +90,7 @@ import static org.mockito.Mockito.when;
 
         //act
         MediaServiceResult actual = mediaService.addBook(bookToAdd);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium[] allBooks = mediaService.getBooks();
 
         //assert
@@ -58,6 +108,7 @@ import static org.mockito.Mockito.when;
 
         //act
         MediaServiceResult actual = mediaService.addBook(bookToAdd);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium[] allBooks = mediaService.getBooks();
 
         //assert
@@ -75,7 +126,9 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addBook(bookToAdd);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         MediaServiceResult actual = mediaService.addBook(bookToAdd);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium[] allBooks = mediaService.getBooks();
 
         //assert
@@ -93,6 +146,7 @@ import static org.mockito.Mockito.when;
 
         //act
         MediaServiceResult actual = mediaService.addBook(bookToAdd);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium[] allBooks = mediaService.getBooks();
 
         //assert
@@ -109,6 +163,7 @@ import static org.mockito.Mockito.when;
 
         //act
         MediaServiceResult actual = mediaService.addBook(bookToAdd);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium[] allBooks = mediaService.getBooks();
 
         //assert
@@ -125,6 +180,7 @@ import static org.mockito.Mockito.when;
 
         //act
         MediaServiceResult actual = mediaService.addBook(bookToAdd);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium[] allBooks = mediaService.getBooks();
 
         //assert
@@ -142,6 +198,7 @@ import static org.mockito.Mockito.when;
         //arrange
 
         //act
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium[] allBooks = mediaService.getBooks();
 
         //assert
@@ -157,6 +214,7 @@ import static org.mockito.Mockito.when;
         //act
         mediaService.addBook(bookOne);
         mediaService.addBook(bookTwo);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium[] allBooks = mediaService.getBooks();
 
         //assert
@@ -175,6 +233,7 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addBook(bookOne);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium actual = mediaService.getBook("9783866801929");
 
         //assert
@@ -188,6 +247,7 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addBook(bookOne);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium actual = mediaService.getBook("978-3-446-42150-9");
 
         //assert
@@ -201,6 +261,7 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addBook(bookOne);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium actual = mediaService.getBook("9783866801921");
 
         //assert
@@ -220,7 +281,9 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addBook(bookToUpdate);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         MediaServiceResult actual = mediaService.updateBook(bookWithModifications, "9783866801929");
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium updatedBook = mediaService.getBook("9783866801929");
 
         //assert
@@ -238,7 +301,9 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addBook(bookToUpdate);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         MediaServiceResult actual = mediaService.updateBook(bookWithModifications, "978-3-446-42150-9");
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium updatedBook = mediaService.getBook("978-3-446-42150-9");
 
         //assert
@@ -257,7 +322,9 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addBook(bookToUpdate);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         MediaServiceResult actual = mediaService.updateBook(bookWithModifications, "9783866801929");
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         Medium updatedBook = mediaService.getBook("9783866801929");
 
         //assert
@@ -275,6 +342,7 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addBook(bookToUpdate);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         MediaServiceResult actual = mediaService.updateBook(bookWithModifications, "9783866801923");
 
         //assert
@@ -290,6 +358,7 @@ import static org.mockito.Mockito.when;
         MediaServiceResult expected = MediaServiceResult.ISBN_NOT_FOUND;
 
         //act
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         MediaServiceResult actual = mediaService.updateBook(bookWithModifications, "9783866801929");
 
         //assert
@@ -306,6 +375,7 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addBook(bookToUpdate);
+        when(hibernatePersistenceMock.getTable(Book.class)).thenReturn(new ArrayList<Medium>(books.values()));
         MediaServiceResult actual = mediaService.updateBook(bookWithModifications, "9783866801929");
 
         //assert
@@ -324,6 +394,7 @@ import static org.mockito.Mockito.when;
 
         //act
         MediaServiceResult actual = mediaService.addDisc(discToAdd);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         Medium[] allDiscs = mediaService.getDiscs();
 
         //assert
@@ -341,7 +412,9 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addDisc(discToAdd);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         MediaServiceResult actual = mediaService.addDisc(discWithError);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         Medium[] allDiscs = mediaService.getDiscs();
 
         //assert
@@ -358,6 +431,7 @@ import static org.mockito.Mockito.when;
 
         //act
         MediaServiceResult actual = mediaService.addDisc(discToAdd);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         Medium[] allDiscs = mediaService.getDiscs();
 
         //assert
@@ -373,6 +447,7 @@ import static org.mockito.Mockito.when;
 
         //act
         MediaServiceResult actual = mediaService.addDisc(discToAdd);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         Medium[] allDiscs = mediaService.getDiscs();
 
         //assert
@@ -388,6 +463,7 @@ import static org.mockito.Mockito.when;
 
         //act
         MediaServiceResult actual = mediaService.addDisc(discToAdd);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         Medium[] allDiscs = mediaService.getDiscs();
 
         //assert
@@ -404,6 +480,7 @@ import static org.mockito.Mockito.when;
         //arrange
 
         //act
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         Medium[] allDiscs = mediaService.getDiscs();
 
         //assert
@@ -419,6 +496,7 @@ import static org.mockito.Mockito.when;
         //act
         mediaService.addDisc(discOne);
         MediaServiceResult actual = mediaService.addDisc(discTwo);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         Medium[] allDiscs = mediaService.getDiscs();
 
         //assert
@@ -438,6 +516,7 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addDisc(discOne);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         Medium actual = mediaService.getDisc("1000200100103");
 
         //assert
@@ -451,6 +530,7 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addDisc(discOne);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         Medium actual = mediaService.getDisc("12345662");
 
         //assert
@@ -469,7 +549,9 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addDisc(discToUpdate);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "1000200100103");
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         Medium updatedDisc = mediaService.getDisc("1000200100103");
 
         //assert
@@ -487,7 +569,9 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addDisc(discToUpdate);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "1000200100103");
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         Medium updatedDisc = mediaService.getDisc("1000200100103");
 
         //assert
@@ -505,7 +589,9 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addDisc(discToUpdate);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "1000200100103");
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         Medium updatedDisc = mediaService.getDisc("1000200100103");
 
         //assert
@@ -522,6 +608,7 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addDisc(discToUpdate);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "1000200100103");
 
         //assert
@@ -537,6 +624,7 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addDisc(discToUpdate);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "1000200100103");
 
         //assert
@@ -552,10 +640,11 @@ import static org.mockito.Mockito.when;
 
         //act
         mediaService.addDisc(discToUpdate);
+        when(hibernatePersistenceMock.getTable(Disc.class)).thenReturn(new ArrayList<Medium>(discs.values()));
         MediaServiceResult actual = mediaService.updateDisc(discWithModifications, "1000200100103");
 
         //assert
         assertEquals(expected.getMessage(), actual.getMessage());
         assertEquals(expected.getStatusCode(), actual.getStatusCode());
     }
-}*/
+}

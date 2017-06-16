@@ -13,6 +13,8 @@ import org.glassfish.jersey.internal.util.collection.MultivaluedStringMap;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -23,6 +25,9 @@ import javax.ws.rs.core.UriInfo;
 import java.net.*;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -33,31 +38,14 @@ import static org.mockito.Mockito.when;
  */
 public class OAuthFilterTest {
 
-    //private MediaResource mediaResource = new MediaResource();
-    private AuthenticationFilter authFilter = new AuthenticationFilter();
-    private AuthenticationService authenticationService;
+    private AuthenticationFilter authFilter = new AuthenticationFilter(mockAuthenticationService());
+    private AuthenticationService authenticationService = mockAuthenticationService();
 
     private final Response EXPECTED_TOKEN_NOT_VALID = Response.status(MediaServiceResult.TOKEN_NOT_VALID.getStatusCode()).entity(MediaServiceResult.TOKEN_NOT_VALID).build();
     private final Response EXPECTED_VALID_TOKEN = Response.status(MediaServiceResult.OK.getStatusCode()).entity(MediaServiceResult.OK).build();
     private final JSONObject USER_WITHOUT_ADMIN_RIGHTS = new JSONObject().put("username","Hannah").put("password", "Nana");
 
 
-    /**
-     * Reset the database if books and discs before every test.
-     */
-    //@Before
-    //public void resetDataBase(){
-    //    mediaResource.resetDataBase();
-    //}
-
-    /**
-     * Reset the database if books and discs before every test.
-     */
-    @Before
-    public void createMockObject(){
-        //authenticationService = mock(AuthenticationService.class);
-        authenticationService = ShareitServletContextListener.getInjectorInstance().getInstance(AuthenticationService.class);
-    }
 
     /**
      * MockObject for calling AuthenticationFilter.
@@ -76,6 +64,33 @@ public class OAuthFilterTest {
         when(requestContext.getUriInfo()).thenReturn(uriInfo);
 
         return requestContext;
+    }
+
+    private AuthenticationService mockAuthenticationService() {
+        AuthenticationService mockAuthenticationService = mock(AuthenticationService.class);
+        String validTestToken = "Hannah:1234567890";
+
+        when(mockAuthenticationService.createToken(any())).then(new Answer() {
+            public Object answer(InvocationOnMock invocation) {
+                if (invocation.getArgument(0).equals(USER_WITHOUT_ADMIN_RIGHTS)) {
+                    return new JSONObject().put("token", validTestToken);
+                } else {
+                    return new JSONObject("{}");
+                }
+            }
+        });
+
+        when(mockAuthenticationService.checkToken(anyString())).then(new Answer() {
+            public Object answer(InvocationOnMock invocation) {
+                if (invocation.getArgument(0).equals(validTestToken)) {
+                    return new JSONObject().put("admin", "false");
+                } else {
+                    return new JSONObject("{}");
+                }
+            }
+        });
+
+        return mockAuthenticationService;
     }
 
     @Test
@@ -107,10 +122,6 @@ public class OAuthFilterTest {
 
     @Test
     public void testAddBookWithValidToken() {
-        //for mocking
-        //when(authenticationService.createToken(USER_WITHOUT_ADMIN_RIGHTS)).thenReturn(new JSONObject("{\"token\":\"EXAMPLE\"}"));
-        //TODO change bindings of authenticationService in authFilter (different modules)
-
         //arrange
         Book bookToAdd = new Book("title", "autor", "9783866801929");
         String token = authenticationService.createToken(USER_WITHOUT_ADMIN_RIGHTS).get("token").toString();
@@ -127,7 +138,7 @@ public class OAuthFilterTest {
         } catch (URISyntaxException e) {
             //never happens
         } catch (WebApplicationException exForNotValidToken) {
-            //should happen
+            //happens only, if token is not valid
             actual = exForNotValidToken.getResponse();
         }
 
