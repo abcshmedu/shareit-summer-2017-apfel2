@@ -23,7 +23,7 @@ import java.net.URLConnection;
 public class OAuthServiceCaller implements AuthenticationService{
 
     private final String urlLocal = "http://localhost:8333/shareit/users/login/";
-    private final String urlHeroku = "https://jularo.herokuapp.com/shareit/users/login/";
+    private final String urlHeroku = "https://soft-arch-lab4-shareit-oauth.herokuapp.com/shareit/users/login/";
 
     /**
      * Call OAuthServer for validating a token.
@@ -37,7 +37,7 @@ public class OAuthServiceCaller implements AuthenticationService{
         String result = "";
 
         try {
-            URL url = new URL(urlLocal + token);
+            URL url = new URL(urlHeroku + token);
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection)con;
             http.setRequestMethod("GET"); // PUT is another valid option
@@ -75,7 +75,7 @@ public class OAuthServiceCaller implements AuthenticationService{
         String result = "";
 
         try {
-            URL url = new URL(urlLocal);
+            URL url = new URL(urlHeroku);
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection)con;
             http.setRequestMethod("POST");

@@ -1,13 +1,13 @@
-# Starter Code für 2. Pratkikumsaufgabe Software-Architektur Sommer 2017 #
- 
-Carolin Direnberger, Maximilian Lipp, Juliane Seidl, Florian Tobusch
+# 5. Pratkikumsaufgabe Software-Architektur Sommer 2017 #
+Dependency Injection und Persistence<br />
+Maximilian Lipp, Florian Tobusch
 
 ##### Resource-Server (RS) mit Authorization Server (AS)
 Link zu Heroku RS (REST):<br />
-https://soft-arch-lab4-shareit-oauth.herokuapp.com/shareit<br />
+https://soft-arch-lab5-shareit-di.herokuapp.com/shareit<br />
 <br />
 Link zu Heroku (AS) (REST):<br />
-https://jularo.herokuapp.com/shareit<br />
+https://soft-arch-lab4-shareit-oauth.herokuapp.com/shareit<br />
 
 ##### REST-API
 | URI-Template      | Verb          | Wirkung  |
