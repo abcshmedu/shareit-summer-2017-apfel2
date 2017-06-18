@@ -1,5 +1,5 @@
-# 5. Pratkikumsaufgabe Software-Architektur Sommer 2017 #
-Dependency Injection und Persistence<br />
+# 5. Praktikumsaufgabe Software-Architektur Sommer 2017 #
+Dependency Injection und Persistence<br /><br />
 Maximilian Lipp, Florian Tobusch
 
 ##### Resource-Server (RS) mit Authorization Server (AS)
